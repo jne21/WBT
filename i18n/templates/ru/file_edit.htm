@@ -1,0 +1,22 @@
+<h1>{h1}</h1>
+<div style="margin: 0 auto; width: 97%;">
+<form method="post" name="f" id="mainForm">
+	<div class="editor" id="file_content" name="file_content" style="width: 900px; height: 700px; margin: 0 auto; border: 1px inset;">{file_content}</div>
+	<!---textarea id="file_content" name="file_content" style="width:100%" rows="45">{file_content}</textarea><br /--->
+	<input type="hidden" name="name" value="{name}" />
+
+	<p align="center">
+		<input type="submit" value="Сохранить" /> &nbsp; &nbsp;
+		<input type="submit" value="Сохранить и продолжить" onclick="document.f['return'].value='true';"/>
+	</p>
+	<input type="hidden" name="action" value="save" />
+	<input type="hidden" name="return" value="" />
+</form>
+<p style="text-align: center;"><a href="css.php">Назад</a></p>
+<script src="/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/initAce.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	initAce(document.getElementById("mainForm"));
+});
+</script>

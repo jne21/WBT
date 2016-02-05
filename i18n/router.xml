@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<i18n>
+	<token xml:id="title">
+		<uk>Маршрутизація</uk>
+		<ru>Маршрутизация</ru>
+	</token>
+	<token xml:id="append_mode">
+		<uk>Створення маршруту</uk>
+		<ru>Создание маршрута</ru>
+	</token>
+	<token xml:id="update_mode">
+		<uk>Редагування маршруту</uk>
+		<ru>Изменение маршрута</ru>
+	</token>
+</i18n>

@@ -1,0 +1,22 @@
+RewriteEngine On
+Options +FollowSymlinks
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php
+
+
+Order Allow,Deny
+Allow from All
+
+DirectoryIndex index.php
+
+<Files ~ "^tmp">
+    Order allow,deny
+    Deny from all
+</Files>
+
+#php_value magic_quotes_gpc Off
+#AddHandler application/x-httpd-php54 .php
+#AddHandler php5-script .shtml

@@ -1,0 +1,26 @@
+{
+    "name": "jne21/WBT",
+    "description": "Web Based Training",
+    "authors": [
+        {
+            "name": "Eugene Kutuzov",
+            "email": "hatatool@jne21.com"
+        }
+    ],
+    "repositories":[
+        {
+            "type":"git",
+            "url":"https://github.com/jne21/hatatool"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "jne21/hatatool": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.6.7"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+    }
+}

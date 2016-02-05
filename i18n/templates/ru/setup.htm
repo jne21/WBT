@@ -1,0 +1,48 @@
+<h1>{h1}</h1>
+<table class="grid" width="100%">
+	<thead>
+		<tr>
+			<th>Идентификатор</th>
+			<th>Значение</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		{items}
+	</tbody>
+</table>
+<input type="text" id="editor" tabindex="1">
+</div>
+<script type="text/javascript">
+var gCurCell;
+$(document).ready(function(){
+	$('.editable').click(function(){
+		gCurCell = this;
+		var lPos = $(this).position();
+		$('#editor').css({
+			'top': (lPos.top + 1) + 'px',
+			'left': (lPos.left + 1) + 'px',
+			'width': $(this).width(),
+			'height': $(this).height()
+		}).val($(this).html()).show().focus();
+	});
+	$('#editor').keypress(function(e){
+		if (e.keyCode==13) {
+			updateValue(gCurCell.id, $(this).val());
+		}
+	});
+	$('#editor').blur(function(){
+		updateValue(gCurCell.id, $(this).val());
+	});
+});
+function updateValue(name, val) {
+	$('#editor').hide();
+	$.get(
+		'/cms/setup/save',
+		{name: name, value: val},
+		function(data) {
+			$(gCurCell).html(data);
+		}
+	);
+}
+</script>

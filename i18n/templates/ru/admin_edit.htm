@@ -1,0 +1,66 @@
+<h1>{h1}</h1>
+<div style="width: 700px; margin: 0 auto;">
+<form method="post">
+	<table class="grid shadow" style="width: 100%;">
+		<tbody>
+			<tr>
+				<th style="width: 120px;">Имя</th>
+				<td><input name="name" maxlength="100" value="{name}" style="width:99%;" /></td>
+			</tr>
+			<tr>
+				<th>E-mail</th>
+				<td><input name="email" maxlength="255" value="{email}" style="width:99%" /></td>
+			</tr>
+			<tr>
+				<th>Язык</th>
+				<td>
+					<select name="locale">
+						{localeItems}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Логин</th>
+				<td><input name="login" maxlength="25" value="{login}" style="width:200px" /></td>
+			</tr>
+			<tr>
+				<th>Пароль</th>
+				<td><input name="password" maxlength="25" value="" style="width:200px" autocomplete="off"/></td>
+			</tr>
+			<tr>
+				<th><label for="state">Активен</label>:</th>
+				<td><input type="checkbox" name="state" id="state"{?state} checked="checked"{/state} /></td>
+			</tr>
+			<tr>
+				<th>Описание</th>
+				<td><textarea name="description" style="width:99%;" rows="3"/>{description}</textarea></td>
+			</tr>
+			<tr>
+				<th>Права</th>
+				<td>
+					<select name="rights">
+						<option value="">=== Выберите ===</option>
+						{rights}
+					</select>
+				</td>
+			</tr>
+{?id}
+			<tr>
+				<th>Дата создания</th>
+				<td class="date">{dateCreate}</td>
+			</tr>
+			<tr>
+				<th>Дата входа</th>
+				<td class="date">{dateLogin}</td>
+			</tr>
+{/id}
+		</tbody>
+	</table>
+	<p align="center">
+		<input type="submit" value="Сохранить" />
+		<br /><br />
+		<a href="/cms/admin">Вернуться в список администраторов</a>
+	</p>
+	<input type="hidden" name="action" value="save" />
+</form>
+</div>

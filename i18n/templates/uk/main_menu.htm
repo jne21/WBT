@@ -1,0 +1,37 @@
+<div id="menu">
+	<ul class="level1">
+		<li><a href="#" class="drop">Керування контентом</a>
+			<ul>
+				<li><a href="/cms/page">Сторінки сайта</a></li>
+				<li><a href="/cms/template">Шаблони</a></li>
+				<li><a href="/cms/css">Стилі (CSS)</a></li>
+				<li><a href="/cms/js">Javascript</a></li>
+			</ul>
+		</li>
+{?admin}
+		<li><a href="news.php">Новини</a></li>
+		<li><a href="#" class="drop">Налаштування</a>
+			<ul>
+				<li><a href="/cms/topic">Меню сайта</a></li>
+				<li><a href="/cms/xml">Локалізація</a></li>
+				<li><a href="/cms/email_template">Шаблони повідомлень</a></li>
+				<li><a href="/cms/setup">Налаштування</a></li>
+				<li><a href="/cms/redirect">Редіректи</a></li>
+				<li><a href="/cms/router">Маршрутизація</a></li>
+				<li><a href="/cms/admin">Адміністратори</a></li>
+			</ul>
+		</li>
+{:admin}
+{?operator}
+		<li><a href="news.php">Новини</a></li>
+		<li><a href="#" class="drop">Налаштування</a>
+			<ul>
+				<li><a href="/cms/redirect">Редіректи</a></li>
+			</ul>
+		</li>
+{/operator}
+{/admin}
+		<li><a href="/cms/logout">Вийти</a></li>
+	</ul>
+	<span style="display: inline-block; float: right; padding: 5px 13px; color: #ccc;">{adminName}</span>
+</div>

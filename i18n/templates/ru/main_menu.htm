@@ -1,0 +1,37 @@
+<div id="menu">
+	<ul class="level1">
+		<li><a href="#" class="drop">Управление контентом</a>
+			<ul>
+				<li><a href="/cms/page">Страницы сайта</a></li>
+				<li><a href="/cms/template">Шаблоны</a></li>
+				<li><a href="/cms/css">Стили (CSS)</a></li>
+				<li><a href="/cms/js">Javascript</a></li>
+			</ul>
+		</li>
+{?admin}
+		<li><a href="news">Новости</a></li>
+		<li><a href="#" class="drop">Настройки</a>
+			<ul>
+				<li><a href="/cms/topic">Меню сайта</a></li>
+				<li><a href="/cms/xml">Локализация</a></li>
+				<li><a href="/cms/email_template">Шаблоны уведомлений</a></li>
+				<li><a href="/cms/setup">Настройки</a></li>
+				<li><a href="/cms/redirect">Редиректы</a></li>
+				<li><a href="/cms/router">Маршрутизация</a></li>
+				<li><a href="/cms/admin">Администраторы</a></li>
+			</ul>
+		</li>
+{:admin}
+{?operator}
+		<li><a href="news">Новости</a></li>
+		<li><a href="#" class="drop">Настройки</a>
+			<ul>
+				<li><a href="/cms/redirect">Редиректы</a></li>
+			</ul>
+		</li>
+{/operator}
+{/admin}
+		<li><a href="/cms/logout">Выйти</a></li>
+	</ul>
+	<span style="display: inline-block; float: right; padding: 5px 13px; color: #ccc;">{adminName}</span>
+</div>

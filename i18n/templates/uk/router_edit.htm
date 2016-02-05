@@ -1,0 +1,24 @@
+<h1>{?id}Редагування{:id}Створення{/id} маршруту</h1>
+<div style="margin: 0 auto; width: 600px;">
+<form method="post">
+<table class="grid shadow" width="100%">
+	<tbody>
+		<tr>
+			<th class="label">Назва:</th>
+			<td><input type="text" name="name" value="{name}" /></td>
+		</tr>
+		<tr>
+			<th class="label">URL: </th>
+			<td><input type="text" name="url" value="{url}" /></td>
+		</tr>
+		<tr>
+			<th class="label"><label for="controller">Контролер</label></th>
+			<td><input type="text" name="controller" value="{controller}" id="controller"/></td>
+		</tr>
+	</tbody>
+</table>
+<p align="center"><button type="submit">Зберегти</button></p>
+<input type="hidden" name="action" value="save" />
+</form>
+<a href="/cms/router">Повернутися до списку маршрутів</a>
+</div>

@@ -1,0 +1,12 @@
+<tr class="ui-state-default{?old} expired{/old}" id="id_{id}">
+	<td style="{?active}{:active}opacity: 0.6;{/active}{?regexp}{:regexp} font-weight: bold;{/regexp}">{source}</td>
+	<td{?active}{:active} style="opacity: 0.6;"{/active}>{destination}</td>
+	<td class="number">{status}</td>
+	<td class="date">{dateRequest}</td>
+	<td class="date">{dateCreate}</td>
+	<td class="controls">
+		<a href="/cms/redirect/show?id={id}&act={?active}0{:active}1{/active}" title="{?active}Вимкнути{:active}Увімкнути{/active}"><img src="/images/icon/{?active}visible.gif{:active}invisible.gif{/active}"{?old} style="background: red;"{/old} class="icon" alt="{?active}Вимкнути{:active}Увімкнути{/active}" /></a>
+		<a href="/cms/redirect/edit?id={id}" title="Редагувати"><img src="/images/icon/b_edit.png" alt="Редагувати" class="icon" /></a>
+		<a href="/cms/redirect/delete?id={id}" onclick="return confirm('Видалити?')"><img src="/images/icon/b_drop.png" class="icon" alt="Видалити" /></a>
+	</td>
+</tr>
