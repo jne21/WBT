@@ -73,7 +73,7 @@ class LocaleManager {
     {
         return self::$locales[$locale];
     }
-    
+
     static function getLocales()
     {
         return self::$locales;
