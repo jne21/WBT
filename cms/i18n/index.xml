@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
-<i18n>
-	<token xml:id="title">
-		<uk>Керуючий інтерфейс</uk>
-		<ru>Управляющий интерфейс</ru>
-	</token>
-</i18n>

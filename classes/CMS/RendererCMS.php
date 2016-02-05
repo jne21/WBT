@@ -22,7 +22,7 @@ class RendererCMS extends \common\Renderer
                 $templateFileName = 'main.htm';
         }
         $tpl = new TemplateFile(
-                $registry->get('cms_template_path') . $templateFileName);
+                $registry->get('template_path') . $templateFileName);
         $this->content = $tpl->getContent();
     }
 
@@ -30,7 +30,7 @@ class RendererCMS extends \common\Renderer
     {
         $registry = Registry::getInstance();
         $tplMainMenu = new TemplateFile(
-                $registry->get('cms_template_path') . 'main_menu.htm');
+                $registry->get('template_path') . 'main_menu.htm');
         $this->updateContent(
                 [
                         'h1' => $this->page->get('h1'),
