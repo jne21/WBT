@@ -1,5 +1,7 @@
 <?php
 
+//include_once(__DIR__ . implode(DIRECTORY_SEPARATOR, array('', 'vendor', 'autoload.php')));
+
 $classPath = __DIR__ . "/classes/";
 $controllersPath = __DIR__ . "/controller/";
 $modelsPath = __DIR__ . "/model/";
@@ -14,6 +16,9 @@ require_once($backendPath . 'AdminController.php');
 require_once($backendPath . 'RouterController.php');
 require_once($backendPath . 'RedirectController.php');
 require_once($backendPath . 'SetupController.php');
+
+require_once($backendPath . 'CourseController.php');
+require_once($backendPath . 'LessonController.php');
 
 require_once($classPath . 'CMS/I18n.php');
 require_once($classPath . 'CMS/RendererCMS.php');

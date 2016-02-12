@@ -25,7 +25,7 @@ class RouterController {
                 break;
             case 'list':
             default:
-                $this->getList();
+                $this->getList();eclipse
                 break;
         }
     }
@@ -59,8 +59,8 @@ class RouterController {
                     'site_root' => $application->siteRoot
                 ])
             );
-            $renderer->loadPage();
-            $renderer->output();
+        $renderer->loadPage();
+        $renderer->output();
     }
 
     function delete()

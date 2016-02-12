@@ -5,27 +5,30 @@
 	.ui-state-default {}
 </style>
 
-<div style="width: 753px; margin: 0 auto 31px;">
-	<div id="message-box">
-		Для встановлення порядку елементів перетягніть їх на потрібне місце за допомогою миші.<br />
-		Після цього клікніть на кнопці
-		<table border="0" style="margin:0 auto">
-			<tr>
-				<td><input type="button" class="saveOrder" name="save" value="Зберегти порядок елементів" disabled="disabled"/></td>
-				<td><span class="saveOk" style="display:none;"><img src="/images/icon/os_complete.png" /></span><span class="saveFail" style="display:none;"><img src="/images/icon/os_cancelled.png" /></span></td>
-			</tr>
-		</table>
-	</div>
-</div>
 
 <div style="margin: 0 auto; width: 900px;">
-	<a href="/cms/router/edit">Новий маршрут</a><br /><br />
+{?items}
+	<div style="width: 753px; margin: 0 auto 31px;">
+		<div id="message-box">
+			Для встановлення порядку елементів перетягніть їх на потрібне місце за допомогою миші.<br />
+			Після цього клікніть на кнопці
+			<table border="0" style="margin:0 auto">
+				<tr>
+					<td><input type="button" class="saveOrder" name="save" value="Зберегти порядок елементів" disabled="disabled"/></td>
+					<td><span class="saveOk" style="display:none;"><img src="/images/icon/os_complete.png" /></span><span class="saveFail" style="display:none;"><img src="/images/icon/os_cancelled.png" /></span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<a href="/cms/router/edit">Новий курс</a><br /><br />
 	<table class="grid shadow" width="100%">
 		<thead>
 			<tr>
 				<th>Назва</th>
-				<th>Посилання</th>
-				<th>Контролер</th>
+				<th>Володар</th>
+				<th>Створений</th>
+				<th>Змінений</th>
 				<th width="60">&nbsp;</th>
 			</tr>
 		</thead>
@@ -40,8 +43,9 @@
 			<td><span class="saveOk" style="display:none;"><img src="/images/icon/os_complete.png" /></span><span class="saveFail" style="display:none;"><img src="/images/icon/os_cancelled.png" /></span></td>
 		</tr>
 	</table>
+{/items}
 	<br />
-	<a href="/cms/router/edit">Новий маршрут</a>
+	<a href="/cms/course/edit">Новий курс</a>
 </div>
 
 <script type="text/javascript">
@@ -62,7 +66,7 @@ $(function() {
 			$('.saveOrder').prop('disabled', true);
 			var sorted = $("#sortable").sortable("serialize", {key: "order[]"});
 			$.post(
-				'/cms/router/renumber',
+				'/cms/course/renumber',
 				sorted,
 				function (data) {
 					if (data == 'OK') {

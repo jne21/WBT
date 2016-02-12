@@ -1,6 +1,8 @@
 <?php
+
 use common\Admin;
 use common\Registry;
+use WBT\LocaleManager;
 use WBT\Course;
 use WBT\CourseL10n;
 use WBT\Lesson;
@@ -21,27 +23,26 @@ class LessonTest extends PHPUnit_Framework_Testcase
         'url'
     );
 
-    function test_CourseCreate()
+    function test_LessonCreate()
     {
         $registry = Registry::getInstance();
 
         $owner = AdminTest::createAdmin();
         $course = CourseTest::createCourse($owner->id);
-        $lesson = new Lesson($course->id);
+        $lesson = new Lesson();
 
         $lesson->courseId = $course->id;
-        $lesson->name = $name = "unitTest";
 
-        $locales = Registry::getInstance()->get('locales');
+        $locales = LocaleManager::getLocales();
         $lesson->l10n = $l10n = self::createLocale();
         $lesson->save();
+
         $this->assertNotEmpty($lesson->id, 'Empty id after create');
         $id = $lesson->id;
         unset($lesson);
 
         $lesson1 = new Lesson($id);
         $this->assertEquals($course->id, $lesson1->courseId, "Invalid course id ({$id}) after create.");
-        $this->assertEquals($name, $lesson1->name, "Invalid name ({$id}) after create.");
 
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
@@ -57,7 +58,6 @@ class LessonTest extends PHPUnit_Framework_Testcase
             'ownerId' => $owner->id,
             'courseId' => $course->id,
             'id' => $id,
-            'name' => $name,
             'l10n' => $l10n
         ];
 
@@ -69,12 +69,10 @@ class LessonTest extends PHPUnit_Framework_Testcase
     {
         $registry = Registry::getInstance();
         $setup = $registry->get(self::REG_KEY);
-
         $lesson = new Lesson($setup['id']);
-        $lesson->name = $name = "unitTest 1";
         $l10n = self::createLocale();
 
-        $locales = $registry->get('locales');
+        $locales = LocaleManager::getLocales();
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
                 $lesson->l10n->set($field, $l10n->get($field, $localeId), $localeId);
@@ -83,7 +81,6 @@ class LessonTest extends PHPUnit_Framework_Testcase
 
         $lesson->save();
 
-        $setup['name'] = $name;
         $setup['l10n'] = $l10n;
         $registry->set(self::REG_KEY, $setup);
 
@@ -91,7 +88,6 @@ class LessonTest extends PHPUnit_Framework_Testcase
 
         $lesson1 = new Lesson($setup['id']);
         $this->assertEquals($setup['courseId'], $lesson1->courseId, "Invalid course id ({$setup['id']}) after update.");
-        $this->assertEquals($setup['name'], $lesson1->name, "Invalid name ({$setup['id']}) after update.");
 
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
@@ -105,7 +101,7 @@ class LessonTest extends PHPUnit_Framework_Testcase
     {
         $registry = Registry::getInstance();
         $setup = $registry->get(self::REG_KEY);
-        $locales = $registry->get('locales');
+        $locales = LocaleManager::getLocales();
 
         $list = Lesson::getList($setup['courseId']);
         $this->assertNotCount(0, $list, "getList returns empty array from not empty database ({$setup['id']})");
@@ -113,7 +109,6 @@ class LessonTest extends PHPUnit_Framework_Testcase
         $lesson = $list[$setup['id']];
         $this->assertInstanceOf('WBT\Lesson', $lesson, "getList item is not an instance of Lesson");
         $this->assertEquals($setup['courseId'], $lesson->courseId, "getList: Invalid course id ({$setup['id']}).");
-        $this->assertEquals($setup['name'], $lesson->name, "getList: Invalid name ({$setup['id']}).");
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
                 $this->assertEquals($setup['l10n']->get($field, $localeId), $lesson->l10n->get($field, $localeId), "getList: Invalid ({$setup['id']})->l10n($localeId, $field).");
@@ -155,14 +150,13 @@ class LessonTest extends PHPUnit_Framework_Testcase
         $db->query("DELETE FROM `" . Admin::TABLE . "` WHERE `description` LIKE 'unitTest%'");
         $db->query("DELETE FROM `" . Course::TABLE . "` WHERE `description` LIKE 'unitTest%'");
         $db->query("DELETE FROM `" . CourseL10n::TABLE . "` WHERE `description` LIKE 'unitTest%'");
-        $db->query("DELETE FROM `" . Lesson::TABLE . "` WHERE `name` LIKE 'unitTest%'");
         $db->query("DELETE FROM `" . LessonL10n::TABLE . "` WHERE `description` LIKE 'unitTest%'");
         $registry->set(self::REG_KEY, null);
     }
 
     static function createLocale()
     {
-        $locales = Registry::getInstance()->get('locales');
+        $locales = LocaleManager::getLocales();
         $locale = new LessonL10n();
         foreach (array_keys($locales) as $localeId) {
             $l10n[$localeId] = [
@@ -183,7 +177,6 @@ class LessonTest extends PHPUnit_Framework_Testcase
         $lesson = new Lesson();
 
         $lesson->courseId = $courseId;
-        $lesson->name = $name = "name 1";
         $lesson->l10n = self::createLocale();
         $lesson->save();
         return $lesson;

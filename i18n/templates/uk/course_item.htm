@@ -1,0 +1,11 @@
+<tr class="ui-state-default" id="id_{id}">
+	<td style="padding-left: {padding};">{name}</td>
+	<td>{owner}</td>
+	<td class="date">{dateCreate}</td>
+	<td class="date">{dateUpdate}</td>
+	<td class="controls">
+		<a href="/cms/course/toggle?id={id}&act={?active}0{:active}1{/active}" title="{?active}Вимкнути{:active}Увімкнути{/active}"><img src="/images/icon/{?active}visible.gif{:active}invisible.gif{/active}" class="icon" alt="{?active}Вимкнути{:active}Увімкнути{/active}" /></a>
+		<a href="/cms/course/edit?id={id}" title="Редагувати"><img src="/images/icon/b_edit.png" border="0" alt="Редагувати" width="16" height="16" /></a>
+		<a href="/cms/course/delete?id={id}" onclick="return confirm('Видалити курс?')"><img src="/images/icon/b_drop.png" border="0" alt="Видалити" width="16" height="16" /></a>
+	</td>
+</tr>

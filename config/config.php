@@ -12,12 +12,12 @@ ini_set ('error_reporting', E_ALL & ~E_NOTICE);
 //ini_set ('display_errors', 1);
 
 if (php_sapi_name()=='cli') {
-    $site_root_absolute = realpath(__DIR__ . DIRECTORY_SEPARATOR .'..') . DIRECTORY_SEPARATOR;
+    $site_root_absolute = realpath(__DIR__ . DIRECTORY_SEPARATOR .'..') . DIRECTORY_SEPARATOR . 'www' . DIRECTORY_SEPARATOR;
 }
 else {
     $site_root_absolute = $_SERVER["DOCUMENT_ROOT"];
 }
-
+#die($site_root_absolute);
 require($site_root_absolute . implode(DIRECTORY_SEPARATOR, array('..', 'vendor', 'autoload.php')));
 include(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR. 'bootstrap.php');
 
@@ -149,7 +149,6 @@ $registry->set('attachment_settings',
 
 
 define('SITE_ROOT_SIGN', '{site_root}');
-
 
 function is_valid_attachment_parent_table ($parent_table, $attachment_settings)
 {

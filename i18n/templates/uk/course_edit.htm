@@ -1,0 +1,107 @@
+<h1>{h1}</h1>
+<div style="width: 95%; margin: 0 auto;">
+
+    <form method="post" name="mainForm" id="mainForm" enctype="multipart/form-data">
+
+    <div id="tabs">
+            <ul>{tabItems}</ul>
+            {tabContentItems}
+    </div>
+    <table class="shadow grid" style="width: 50%; margin-top: 1em;">
+        <tbody>
+<!---
+            <tr>
+                <th width="200" colspan="2">Розділ:</th>
+                <td>
+                    <select name="cls_id">
+                        <option value="">Виберіть будь ласка...</option>
+                        {product_cls_items}
+                    </select>
+                </td>
+            </tr>
+--->
+            <tr>
+                <th width="200px;"><label for="state">Показувати на сайті</label>: </th>
+                <td><input id="state" name="state" type="checkbox"{?state} checked="checked"{/state} /></td>
+            </tr>
+    {?id}
+            <tr>
+                <th>Володар:</th>
+                <td>{ownerName}</td>
+            </tr>
+            <tr>
+                <th>Створений:</th>
+                <td>{dateCreate}</td>
+            </tr>
+            <tr>
+                <th>Оновлений:</th>
+                <td>{dateUpdate}</td>
+            </tr>
+    {/id}
+        </tbody>
+    </table>
+
+    <br />
+    <p style="text-align: center">
+            <input type="submit" value="Зберегти" /><br /><br />
+            Назад: <a href="/cms/course/list">Повернутися до списку курсів</a>
+    </p>
+    <input type="hidden" name="action" value="save" />
+    <input type="hidden" name="ret" value="0" />
+    {?id}
+    <a href="/cms/lesson/edit?course_id={id}">Додати урок</a>
+    {?lessonItems}
+    <br /><br />
+    <table class="shadow grid" style="width: 100%;">
+        <head>
+            <tr>
+                <th style="width: 30px;" class="number">&nbsp;</th>
+                <th>Назва</th>
+                <th style="width:60px;">&nbsp;</th>
+            </tr>
+        </head>
+        <tbody>
+            {lessonItems}
+        </tbody>
+    </table>
+    <br />
+    {/lessonItems}
+    {/id}
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+        $( "#tabs" ).tabs();
+
+	$( "#sortable" ).sortable({
+		placeholder: "ui-state-highlight",
+		update: function (event, ui) {
+			var sorted = $("#sortable").sortable("serialize", {key: "order[]"});
+			$.post(
+				'/cms/course/lesson/renumber',
+				sorted,
+				function (data) {
+					if (data == 'OK') {
+					}
+					else {
+						alert(data);
+					}
+				}
+			).fail( function () {
+			});
+		}
+	});
+	$("#sortable").disableSelection();
+});
+</script>
+
+<style type="text/css">
+	.ui-state-highlight {width: 120px; height: 148px; float: left; margin: 0 11px 11px 0;}
+</style>
+<script src="/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/initAce.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	initAce(document.getElementById("mainForm"));
+});
+</script>

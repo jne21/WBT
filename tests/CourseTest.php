@@ -2,6 +2,7 @@
 use common\Admin;
 use WBT\Course;
 use WBT\CourseL10n;
+use WBT\LocaleManager;
 use common\Registry;
 
 class CourseTest extends PHPUnit_Framework_Testcase
@@ -13,24 +14,24 @@ class CourseTest extends PHPUnit_Framework_Testcase
     function test_CourseCreate()
     {
         $registry = Registry::getInstance();
-        $locales = $registry->get('locales');
-        
+        $locales = LocaleManager::getLocales();
+
         $owner = AdminTest::createAdmin();
         $course = new Course();
         $course->ownerId = $owner->id;
         $course->state = $state = 8;
         $course->l10n = $l10n = self::createLocale();
-        
+
         $course->save();
         $id = $course->id;
         $this->assertNotEmpty($course->id, 'Empty id after create');
         unset($course);
-        
+
         $course1 = new Course($id);
-        
+
         $this->assertEquals($owner->id, $course1->ownerId, "Invalid owner id ($id) after create.");
         $this->assertEquals($state, $course1->state, "Invalid state ($id) after create.");
-        
+
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
                 $this->assertEquals(
@@ -39,7 +40,7 @@ class CourseTest extends PHPUnit_Framework_Testcase
                     "Invalid ($id)->l10n($localeId, $field) after create.");
             }
         }
-        
+
         $setup = [
             'ownerId' => $owner->id,
             'id' => $id,
@@ -59,7 +60,7 @@ class CourseTest extends PHPUnit_Framework_Testcase
         $course->state = $state = 1;
         $l10n = self::createLocale();
         
-        $locales = Registry::getInstance()->get('locales');
+        $locales = LocaleManager::getLocales();
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
                 $course->l10n->set(
@@ -98,8 +99,8 @@ class CourseTest extends PHPUnit_Framework_Testcase
     {
         $registry = Registry::getInstance();
         $setup = $registry->get(self::REG_KEY);
-        $locales = $registry->get('locales');
-        
+        $locales = LocaleManager::getLocales();
+
         $list = Course::getList();
         $this->assertNotCount(0, $list, "getList returns empty array from not empty database ({$setup['id']})");
         $this->assertArrayHasKey($setup['id'], $list, "getList: Existing Course not found ({$setup['id']})");
@@ -171,7 +172,7 @@ class CourseTest extends PHPUnit_Framework_Testcase
 
     static function createLocale()
     {
-        $locales = Registry::getInstance()->get('locales');
+        $locales = LocaleManager::getLocales();
         $locale = new CourseL10n();
         foreach (array_keys($locales) as $localeId) {
             $l10n[$localeId] = [

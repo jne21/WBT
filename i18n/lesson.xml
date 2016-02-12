@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<i18n>
+	<token xml:id="append_mode">
+		<uk><![CDATA[Додання уроку]]></uk>
+		<ru><![CDATA[Добавление урока]]></ru>
+	</token>
+	<token xml:id="update_mode">
+		<uk><![CDATA[Редагування уроку]]></uk>
+		<ru><![CDATA[Редактирование урока]]></ru>
+	</token>
+	<token xml:id="state0">
+		<uk><![CDATA[Не активний]]></uk>
+		<ru><![CDATA[Не активен]]></ru>
+	</token>
+	<token xml:id="state1">
+		<uk><![CDATA[Активний]]></uk>
+		<ru><![CDATA[Активен]]></ru>
+	</token>
+</i18n>

@@ -2,6 +2,8 @@
 
 use common\Application;
 use common\Admin;
+use WBT\CourseController;
+use WBT\LessonController;
 
 class CMSController {
     function __construct()
@@ -21,6 +23,12 @@ class CMSController {
                     break;
                 case 'setup':
                     $controller = new SetupController;
+                    break;
+                case 'course':
+                    $controller = new CourseController;
+                    break;
+                case 'lesson':
+                    $controller = new LessonController;
                     break;
                 case 'logout':
                     unset($_SESSION['admin']);

@@ -80,7 +80,7 @@ class AdminController {
 
     function delete()
     {
-        admin::delete(intval($_GET['id']));
+        Admin::delete(intval($_GET['id']));
         header('Location: '.$_SERVER['HTTP_REFERER']);
         exit;
     }
