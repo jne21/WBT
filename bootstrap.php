@@ -3,31 +3,42 @@
 //include_once(__DIR__ . implode(DIRECTORY_SEPARATOR, array('', 'vendor', 'autoload.php')));
 
 $classPath = __DIR__ . "/classes/";
-$controllersPath = __DIR__ . "/controller/";
-$modelsPath = __DIR__ . "/model/";
-$frontendPath = $controllersPath . 'frontend/';
-$backendPath = $controllersPath . 'backend/';
 
-require_once($frontendPath . 'Index.php');
+$modelPath = __DIR__ . "/model/";
+$viewPath = __DIR__ . "/view/";
+$controllerPath = __DIR__ . "/controller/";
 
-require_once($backendPath . 'CMSController.php');
-require_once($backendPath . 'LoginController.php');
-require_once($backendPath . 'AdminController.php');
-require_once($backendPath . 'RouterController.php');
-require_once($backendPath . 'RedirectController.php');
-require_once($backendPath . 'SetupController.php');
+$cmsViewPath = $viewPath . 'cms/';
+$wwwViewPath = $viewPath . 'www/';
 
-require_once($backendPath . 'CourseController.php');
-require_once($backendPath . 'LessonController.php');
+$cmsControllerPath = $controllerPath . 'cms/';
+$wwwControllerPath = $controllerPath . 'www/';
+
+require($classPath . 'iView.php');
+
+require_once($wwwControllerPath . 'Index.php');
+
+require_once($cmsControllerPath . 'CMSController.php');
+require_once($cmsControllerPath . 'LoginController.php');
+require_once($cmsControllerPath . 'AdminController.php');
+require_once($cmsControllerPath . 'RouterController.php');
+require_once($cmsControllerPath . 'RedirectController.php');
+require_once($cmsControllerPath . 'SetupController.php');
+
+require_once($cmsControllerPath . 'CourseController.php');
+require_once($cmsControllerPath . 'LessonController.php');
 
 require_once($classPath . 'CMS/I18n.php');
 require_once($classPath . 'CMS/RendererCMS.php');
 require_once($classPath . 'WBT/LocaleManager.php');
 
-require_once($modelsPath . 'Course.php');
-require_once($modelsPath . 'CourseL10n.php');
-require_once($modelsPath . 'Exercise.php');
-require_once($modelsPath . 'Lesson.php');
-require_once($modelsPath . 'LessonL10n.php');
-require_once($modelsPath . 'Stage.php');
-require_once($modelsPath . 'StageL10n.php');
+require_once($modelPath . 'Course.php');
+require_once($modelPath . 'CourseL10n.php');
+require_once($modelPath . 'Exercise.php');
+require_once($modelPath . 'Lesson.php');
+require_once($modelPath . 'LessonL10n.php');
+require_once($modelPath . 'Stage.php');
+require_once($modelPath . 'StageL10n.php');
+
+require_once($cmsViewPath . 'RouterEditView.php');
+require_once($cmsViewPath . 'RouterListView.php');

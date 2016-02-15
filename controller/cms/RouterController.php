@@ -25,7 +25,7 @@ class RouterController {
                 break;
             case 'list':
             default:
-                $this->getList();eclipse
+                $this->getList();
                 break;
         }
     }
@@ -34,38 +34,23 @@ class RouterController {
         $application = Application::getInstance();
         $registry = Registry::getInstance();
         $i18n = new i18n($registry->get('i18n_path').'router.xml');
-        $tpl  = new Template($registry->get('template_path').'router.htm');
-        $tpli = new Template($registry->get('template_path').'router_item.htm');
-
-        $list = Router::getList();
-        $cnt = count($list);
-        $listItems = '';
-        foreach ($list as $line) {
-            $listItems .= $tpli->apply ([
-                'id'         => $line->id,
-                'name'       => $line->name,
-                'url'        => $line->url,
-                'controller' => $line->controller
-            ]);
-        }
 
         $renderer = new Renderer(Page::MODE_NORMAL);
         $pTitle = $i18n->get('title');
-        $renderer->page->set('title', $pTitle)
+        $renderer->page
+            ->set('title', $pTitle)
             ->set('h1', $pTitle)
-            ->set('content',
-                $tpl->apply([
-                    'items' => $listItems,
-                    'site_root' => $application->siteRoot
-                ])
-            );
+            ->set('content', RouterListView::get(['list'=>Router::getList()]));
         $renderer->loadPage();
         $renderer->output();
     }
 
     function delete()
     {
-        Router::delete(intval($_GET['id']));
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT); //, ['options'=>['default'=>0]]
+        if ($id) {
+            Router::delete($id);
+        }
         header('location: /cms/router');
     }
 
@@ -85,20 +70,12 @@ class RouterController {
             $registry = Registry::getInstance();
             $i18n = new I18n($registry->get('i18n_path').'router.xml');
             $pTitle = $i18n->get( $id ? 'update_mode' : 'append_mode' );
-            $tpl = new Template($registry->get('template_path').'router_edit.htm');
 
             $renderer = new Renderer(Page::MODE_NORMAL);
-            $renderer->page->set('title', $pTitle)
+            $renderer->page
+                ->set('title', $pTitle)
                 ->set('h1', $pTitle)
-                ->set('content',
-                    $tpl->apply([
-                        'id'    => $router->id,
-                        'name'  => htmlspecialchars($router->name),
-                        'url'   => htmlspecialchars($router->url),
-                        'controller'  => $router->controller,
-                        'site_root' => $application->siteRooot
-                    ])
-                );
+                ->set('content', RouterEditView::get(['router'=>$router]));
             $renderer->loadPage();
             $renderer->output();
         }

@@ -1,97 +1,152 @@
 <h1>{h1}</h1>
 <div style="width: 95%; margin: 0 auto;">
+    <div id="course-editor">
+        <ul>
+{?id}
+            <li><a href="#course-lessons">Уроки</a></li>
+{/id}
+            <li><a href="#course-header">Редагування курсу</a></li>
+        </ul>
+        <div id="course-header">
+            <form method="post" name="mainForm" id="mainForm" enctype="multipart/form-data">
 
-    <form method="post" name="mainForm" id="mainForm" enctype="multipart/form-data">
-
-    <div id="tabs">
-            <ul>{tabItems}</ul>
-            {tabContentItems}
-    </div>
-    <table class="shadow grid" style="width: 50%; margin-top: 1em;">
-        <tbody>
+                <div id="tabs">
+                        <ul>{tabItems}</ul>
+                        {tabContentItems}
+                </div>
+                <table class="shadow grid" style="width: 50%; margin-top: 1em;">
+                    <tbody>
 <!---
-            <tr>
-                <th width="200" colspan="2">Розділ:</th>
-                <td>
-                    <select name="cls_id">
-                        <option value="">Виберіть будь ласка...</option>
-                        {product_cls_items}
-                    </select>
-                </td>
-            </tr>
+                        <tr>
+                            <th width="200" colspan="2">Розділ:</th>
+                            <td>
+                                <select name="cls_id">
+                                    <option value="">Виберіть будь ласка...</option>
+                                    {product_cls_items}
+                                </select>
+                            </td>
+                        </tr>
 --->
-            <tr>
-                <th width="200px;"><label for="state">Показувати на сайті</label>: </th>
-                <td><input id="state" name="state" type="checkbox"{?state} checked="checked"{/state} /></td>
-            </tr>
-    {?id}
-            <tr>
-                <th>Володар:</th>
-                <td>{ownerName}</td>
-            </tr>
-            <tr>
-                <th>Створений:</th>
-                <td>{dateCreate}</td>
-            </tr>
-            <tr>
-                <th>Оновлений:</th>
-                <td>{dateUpdate}</td>
-            </tr>
-    {/id}
-        </tbody>
-    </table>
+                        <tr>
+                            <th width="200px;"><label for="state">Показувати на сайті</label>: </th>
+                            <td><input id="state" name="state" type="checkbox"{?state} checked="checked"{/state} /></td>
+                        </tr>
+{?id}
+                        <tr>
+                            <th>Володар:</th>
+                            <td>{ownerName}</td>
+                        </tr>
+                        <tr>
+                            <th>Створений:</th>
+                            <td>{dateCreate}</td>
+                        </tr>
+                        <tr>
+                            <th>Оновлений:</th>
+                            <td>{dateUpdate}</td>
+                        </tr>
+{/id}
+                    </tbody>
+                </table>
 
-    <br />
-    <p style="text-align: center">
-            <input type="submit" value="Зберегти" /><br /><br />
-            Назад: <a href="/cms/course/list">Повернутися до списку курсів</a>
-    </p>
-    <input type="hidden" name="action" value="save" />
-    <input type="hidden" name="ret" value="0" />
-    {?id}
-    <a href="/cms/lesson/edit?course_id={id}">Додати урок</a>
-    {?lessonItems}
-    <br /><br />
-    <table class="shadow grid" style="width: 100%;">
-        <head>
-            <tr>
-                <th style="width: 30px;" class="number">&nbsp;</th>
-                <th>Назва</th>
-                <th style="width:60px;">&nbsp;</th>
-            </tr>
-        </head>
-        <tbody>
-            {lessonItems}
-        </tbody>
-    </table>
-    <br />
-    {/lessonItems}
-    {/id}
+                <br />
+                <p style="text-align: center">
+                        <input type="submit" value="Зберегти" /><br /><br />
+                        Назад: <a href="/cms/course/list">Повернутися до списку курсів</a>
+                </p>
+                <input type="hidden" name="action" value="save" />
+                <input type="hidden" name="ret" value="0" />
+            </form>
+        </div>
+{?id}
+        <div id="course-lessons">
+            <style type="text/css">
+                    .ui-state-highlight {width: 100%;height: 30px; background: #8F8 !important;}
+                    .ui-state-default {}
+            </style>
+
+            <div style="width: 753px; margin: 0 auto 31px;">
+                    <div id="message-box">
+                            Для встановлення порядку елементів перетягніть їх на потрібне місце за допомогою миші.<br />
+                            Після цього клікніть на кнопці
+                            <table border="0" style="margin:0 auto">
+                                    <tr>
+                                            <td><input type="button" class="saveOrder" name="save" value="Зберегти порядок елементів" disabled="disabled"/></td>
+                                            <td><span class="saveOk" style="display:none;"><img src="/images/icon/os_complete.png" /></span><span class="saveFail" style="display:none;"><img src="/images/icon/os_cancelled.png" /></span></td>
+                                    </tr>
+                            </table>
+                    </div>
+            </div>
+
+            <a href="/cms/lesson/edit?course_id={id}">Додати урок</a>
+            {?lessonItems}
+            <br /><br />
+            <table class="shadow grid" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th style="width: 30px;" class="number">&nbsp;</th>
+                        <th>Назва</th>
+                        <th style="width:60px;">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody id="sortable">
+                    {lessonItems}
+                </tbody>
+            </table>
+            <br />
+            <table border="0" style="margin:0 auto">
+                <tr>
+                    <td><input type="button" class="saveOrder" name="save" value="Зберегти порядок елементів" disabled="disabled"/></td>
+                    <td><span class="saveOk" style="display:none;"><img src="/images/icon/os_complete.png" /></span><span class="saveFail" style="display:none;"><img src="/images/icon/os_cancelled.png" /></span></td>
+                </tr>
+            </table>
+            <br />
+            {/lessonItems}
+        </div>
+{/id}
+    </div>
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
-        $( "#tabs" ).tabs();
+$(function() {
+        $("#course-editor").tabs();
+        $("#tabs").tabs();
 
-	$( "#sortable" ).sortable({
+        $("#sortable").sortable({
 		placeholder: "ui-state-highlight",
 		update: function (event, ui) {
+			$(".saveOrder").prop('disabled', false);
+			$(".saveOk").hide();
+			$(".saveFail").hide();
+		}
+	});
+	$("#sortable").disableSelection();
+
+	$('.saveOrder').bind(
+		'click',
+		function (e) {
+			$('.saveOrder').prop('disabled', true);
 			var sorted = $("#sortable").sortable("serialize", {key: "order[]"});
+                        alert(sorted);
 			$.post(
-				'/cms/course/lesson/renumber',
+				'/cms/lesson/renumber/{id}',
 				sorted,
 				function (data) {
 					if (data == 'OK') {
+						$('.saveOk').show();
 					}
 					else {
+						$('.saveFail').show();
+						$('.saveOrder').prop('disabled', false);
 						alert(data);
 					}
 				}
 			).fail( function () {
+				$('.saveFail').show();
+				$('.saveOrder').prop('disabled', false);
 			});
+			e.preventDefault();
 		}
-	});
-	$("#sortable").disableSelection();
+	);
 });
 </script>
 

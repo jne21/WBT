@@ -161,8 +161,7 @@ function is_valid_attachment_parent_table ($parent_table, $attachment_settings)
 function d ($var, $stop = false)
 {
     echo '<pre>' . print_r($var, true) . '</pre>';
-    if ($stop)
+    if ($stop) {
         die();
+    }
 }
-
-?>
