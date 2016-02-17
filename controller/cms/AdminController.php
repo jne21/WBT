@@ -1,20 +1,17 @@
 <?php
 
-use common\TemplateFile as Template;
 use common\Page;
 use common\Registry;
 use common\Application;
 use common\Admin;
 use CMS\I18n;
 use CMS\RendererCMS as Renderer;
-use WBT\LocaleManager;
 
 class AdminController {
 
     function __construct()
     {
         $application = Application::getInstance();
-        $registry = Registry::getInstance();
         switch ($application->segment[2]) {
             case 'delete':
                 $this->delete();
@@ -35,44 +32,15 @@ class AdminController {
     function getList()
     {
         $registry = Registry::getInstance();
-        $application = Application::getInstance();
         $i18n = new I18n($registry->get('i18n_path') . 'admin.xml');
-        $localeData = LocaleManager::getLocaleData($registry->get('locale'));
-        $tpl = new Template($registry->get('template_path') . 'admin.htm');
-        $tpli = new template($registry->get('template_path') . 'admin_item.htm');
-
-        $listItems = '';
-
-        foreach (Admin::getList() as $item) {
-            $listItems .= $tpli->apply(
-                array(
-                    'id' => $item->id,
-                    'description' => $item->description,
-                    'email' => $item->email,
-                    'login' => $item->login,
-                    'name' => $item->name,
-                    'state' => $i18n->get('state'.$item->state),
-                    'rights' => $item->rights,
-                    'dateCreate' => date($localeData['dateFormat'], $item->dateCreate),
-                    'dateLogin' => ($item->dateLogin ? date($localeData['dateFormat'], $item->dateLogin) : ''),
-                    'locale' => $item->locale
-                )
-            );
-        }
 
         $renderer = new Renderer(Page::MODE_NORMAL);
 
         $pTitle = $i18n->get('title');
-        $renderer->page->set('title', $pTitle)
+        $renderer->page
+            ->set('title', $pTitle)
             ->set('h1', $pTitle)
-            ->set('content', 
-                $tpl->apply(
-                    array(
-                        'items' => $listItems,
-                        'site_root' => $application->siteRoot
-                    )
-                )
-            );
+            ->set('content', AdminListView::get(['list'=>Admin::getList()]));
 
         $renderer->loadPage();
         $renderer->output();
@@ -88,10 +56,7 @@ class AdminController {
     function edit()
     {
         $registry = Registry::getInstance();
-        $application = Application::getInstance();
         $admin = new Admin($id = intval($_GET['id']));
-        $locale = $registry->get('locale');
-        $locales = LocaleManager::getLocales();
 
         if ($_POST['action'] == 'save') { //d($_POST, 1);
             $admin->description  = trim($_POST['description']);
@@ -110,43 +75,15 @@ class AdminController {
         }
         else {
             $i18n = new I18n($registry->get('i18n_path').'admin.xml');
-            $tplso = new Template($registry->get('template_path').'select_option.htm');
-            $localeItems = '';
-            foreach ($locales as $locale=>$localeData) {
-                $localeItems .= $tplso->apply([
-                    'name' => $localeData['name'],
-                    'value' => $locale,
-                    'selected' => $locale==$admin->locale
-                ]);
-            } 
-
-            $localeData = LocaleManager::getLocaleData($registry->get('locale'));
-            $tpl = new Template($registry->get('template_path').'admin_edit.htm');
-
-            $renderer = new Renderer(Page::MODE_NORMAL);
-
             $pTitle = $i18n->get(
                 $admin->id ?  'update_mode' : 'append_mode'
             );
-            $renderer->page->set('title', $pTitle)
+
+            $renderer = new Renderer(Page::MODE_NORMAL);
+            $renderer->page
+                ->set('title', $pTitle)
                 ->set('h1', $pTitle)
-                ->set('content',
-                    $tpl->apply(
-                        array(
-                            'id' => $admin->id,
-                            'description' => htmlspecialchars($admin->description),
-                            'email' => htmlspecialchars($admin->email),
-                            'login' => htmlspecialchars($admin->login),
-                            'name' => htmlspecialchars($admin->name),
-                            'rights' => $admin->rights,
-                            'state' => $admin->state,
-                            'localeItems' => $localeItems,
-                            'dateCreate' => date($localeData['dateFormat'], $admin->dateCreate),
-                            'dateLogin' => $admin->dateLogin ? date($localeData['dateFormat'] . ' H:i', $admin->dateLogin) : '',
-                            'site_root' => $application->siteRoot
-                        )
-                    )
-                );
+                ->set('content', AdminEditView::get(['admin'=>$admin]));
 
             $renderer->loadPage();
             $renderer->output();

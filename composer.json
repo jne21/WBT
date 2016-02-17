@@ -22,5 +22,18 @@
     },
     "minimum-stability": "dev",
     "autoload": {
+        "psr-0": {
+        },
+        "classmap": [
+            "classes/",
+            "classes/CMS/",
+            "classes/WBT/",
+            "controller/cms/",
+            "controller/www/",
+            "model/cms/",
+            "model/www/",
+            "view/cms/",
+            "view/www/"
+        ],
     }
 }

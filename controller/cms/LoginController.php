@@ -14,7 +14,6 @@ class LoginController
     function __construct()
     {
         $registry = Registry::getInstance();
-        $application = Application::getInstance();
         $i18n = new I18n($registry->get('i18n_path') . 'admin.xml');
 
         if ($_POST['action']=='login') {
@@ -33,6 +32,7 @@ class LoginController
                         ];
                         unset($_SESSION['login_error']);
                         header("Location: /cms");
+                        exit;
                     }
                     else {
                         LoginError::register($_POST['login'], $_POST['password']);
@@ -45,26 +45,16 @@ class LoginController
                 $message = $i18n->get('empty_login_of_password');
             }
         }
-        else {
-            $tpl = new Template($registry->get('template_path').'login.htm');
-            $renderer = new Renderer(Page::MODE_NORMAL);
-            $pTitle = $i18n->get('login_title');
-            $renderer->page->set('title', $pTitle)
-                ->set('h1', $pTitle)
-                ->set('content',
-                    $tpl->apply(
-                        array(
-                            'items' => $listItems,
-                            'message' => $message,
-                            'loginError' => $_SESSION['login_error'],
-                            'site_root' => $application->siteRoot
-                    )
-                )
-            );
 
-            $renderer->loadPage();
-            $renderer->output();
-        }
+        $renderer = new Renderer(Page::MODE_NORMAL);
+        $pTitle = $i18n->get('login_title');
+        $renderer->page
+            ->set('title', $pTitle)
+            ->set('h1', $pTitle)
+            ->set('content', LoginView::get(['message'=>$message]));
+
+        $renderer->loadPage();
+        $renderer->output();
     }
 
 }

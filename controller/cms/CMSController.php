@@ -1,7 +1,11 @@
 <?php
 
-use common\Application;
 use common\Admin;
+use common\Application;
+use common\Page;
+use common\Registry;
+use CMS\RendererCMS as Renderer;
+use CMS\I18n;
 use WBT\CourseController;
 use WBT\LessonController;
 
@@ -35,7 +39,19 @@ class CMSController {
                     header('Location: /cms');
                     break;
                 default:
-                    echo 'cms default';
+                    $registry = Registry::getInstance();
+                    $i18n = new I18n($registry->get('i18n_path') . 'cms.xml');
+
+                    $renderer = new Renderer(Page::MODE_NORMAL);
+
+                    $pTitle = $i18n->get('title');
+                    $renderer->page
+                        ->set('title', $pTitle)
+                        ->set('h1', $pTitle)
+                        ->set('content', '');
+
+                    $renderer->loadPage();
+                    $renderer->output();
             }
         }
         else {
