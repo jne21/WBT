@@ -34,6 +34,6 @@
             "model/www/",
             "view/cms/",
             "view/www/"
-        ],
+        ]
     }
 }
