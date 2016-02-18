@@ -29,6 +29,8 @@ require_once($cmsViewPath . 'AdminEditView.php');
 require_once($cmsViewPath . 'AdminListView.php');
 require_once($cmsViewPath . 'CourseEditView.php');
 require_once($cmsViewPath . 'CourseListView.php');
+require_once($cmsViewPath . 'ExerciseEditView.php');
+require_once($cmsViewPath . 'ExerciseListView.php');
 require_once($cmsViewPath . 'LoginView.php');
 require_once($cmsViewPath . 'MainMenuView.php');
 require_once($cmsViewPath . 'RendererCMSView.php');
@@ -45,6 +47,7 @@ require_once($cmsControllerPath . 'RedirectController.php');
 require_once($cmsControllerPath . 'SetupController.php');
 
 require_once($cmsControllerPath . 'CourseController.php');
+require_once($cmsControllerPath . 'ExerciseController.php');
 require_once($cmsControllerPath . 'LessonController.php');
 
 require_once($classPath . 'CMS/I18n.php');

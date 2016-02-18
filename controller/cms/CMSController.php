@@ -8,6 +8,7 @@ use CMS\RendererCMS as Renderer;
 use CMS\I18n;
 use WBT\CourseController;
 use WBT\LessonController;
+use WBT\ExerciseController;
 
 class CMSController {
     function __construct()
@@ -33,6 +34,9 @@ class CMSController {
                     break;
                 case 'lesson':
                     $controller = new LessonController;
+                    break;
+                case 'exercise':
+                    $controller = new ExerciseController;
                     break;
                 case 'logout':
                     unset($_SESSION['admin']);

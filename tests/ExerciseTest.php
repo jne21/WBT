@@ -8,14 +8,16 @@ class ExerciseTest extends PHPUnit_Framework_Testcase {
 	public
 		$data = [
 			0 => [
-				'name'        => "unit test 0",
-				'description' => "unitTest description 0",
-				'script'      => "unit_test_script_0.php"
+				'name'            => "unit test 0",
+				'description'     => "unitTest description 0",
+				'controller'      => "unit_test_controller_0.php",
+				'config_template' => "unit_test_config_template"
 			],
 			1 => [
-				'name'        => "unit test 1",
-				'description' => "unitTest description 1",
-				'script'      => "unit_test_script_1.php"
+				'name'            => "unit test 1",
+				'description'     => "unitTest description 1",
+				'controller'      => "unit_test_controller_1.php",
+				'config_template' => "unit_test_config_template 1"
 			]
 		];
 
@@ -24,9 +26,10 @@ class ExerciseTest extends PHPUnit_Framework_Testcase {
 	{
 		$registry = Registry::getInstance();
 		$exercise = new Exercise();
-		$exercise->name        = $this->data[0]['name'];
-		$exercise->description = $this->data[0]['description'];
-		$exercise->script      = $this->data[0]['script'];
+		$exercise->name           = $this->data[0]['name'];
+		$exercise->description    = $this->data[0]['description'];
+		$exercise->controller     = $this->data[0]['controller'];
+		$exercise->configTemplate = $this->data[0]['config_template'];
 		$exercise->save();
 
 		$this->assertNotEmpty($exercise->id, 'Empty id after create');
@@ -38,7 +41,8 @@ class ExerciseTest extends PHPUnit_Framework_Testcase {
 
 		$this->assertEquals($this->data[0]['name'], $exercise1->name, "Invalid name ($id) after create.");
 		$this->assertEquals($this->data[0]['description'], $exercise1->description, "Invalid description ($id) after create.");
-		$this->assertEquals($this->data[0]['script'], $exercise1->script, "Invalid script ($id) after create.");
+		$this->assertEquals($this->data[0]['controller'], $exercise1->controller, "Invalid controller ($id) after create.");
+		$this->assertEquals($this->data[0]['config_template'], $exercise1->configTemplate, "Invalid config_template ($id) after create.");
 	}
 
 	function test_updateExercise ()
@@ -47,16 +51,18 @@ class ExerciseTest extends PHPUnit_Framework_Testcase {
 		$id = $registry->get('exerciseId');
 
 		$exercise = new Exercise($id);
-		$exercise->name        = $this->data[1]['name'];
-		$exercise->description = $this->data[1]['description'];
-		$exercise->script      = $this->data[1]['script'];
+		$exercise->name           = $this->data[1]['name'];
+		$exercise->description    = $this->data[1]['description'];
+		$exercise->controller     = $this->data[1]['controller'];
+		$exercise->configTemplate = $this->data[1]['config_template'];
 		$exercise->save();
 		unset($exercise);
 
 		$exercise1 = new Exercise($id);
 		$this->assertEquals($this->data[1]['name'], $exercise1->name, "Invalid name ($id) after update.");
 		$this->assertEquals($this->data[1]['description'], $exercise1->description, "Invalid description ($id) after update.");
-		$this->assertEquals($this->data[1]['script'], $exercise1->script, "Invalid script ($id) after update.");
+		$this->assertEquals($this->data[1]['controller'], $exercise1->controller, "Invalid controller ($id) after update.");
+		$this->assertEquals($this->data[1]['config_template'], $exercise1->configTemplate, "Invalid config_template ($id) after update.");
 		unset($exercise1);
 	}
 
@@ -72,7 +78,8 @@ class ExerciseTest extends PHPUnit_Framework_Testcase {
 		$this->assertInstanceOf('WBT\Exercise', $exercise, "getList item is not an instance of Exercise");
 		$this->assertEquals($this->data[1]['name'], $exercise->name, "getList: Invalid name ($id) after update.");
 		$this->assertEquals($this->data[1]['description'], $exercise->description, "getList: Invalid description ($id) after update.");
-		$this->assertEquals($this->data[1]['script'], $exercise->script, "getList: Invalid script ($id) after update.");
+		$this->assertEquals($this->data[1]['controller'], $exercise->controller, "getList: Invalid controller ($id) after update.");
+		$this->assertEquals($this->data[1]['config_template'], $exercise->configTemplate, "getList: Invalid config_template ($id) after update.");
 		unset ($exercise);
 	}
 
@@ -96,9 +103,10 @@ class ExerciseTest extends PHPUnit_Framework_Testcase {
 	function createExercise() {
 		$exercise = new Exercise();
 
-		$exercise->name        = $name        = "unit test ".date('Y-m-d H:i:s');
-		$exercise->description = $description = "unitTest description";
-		$exercise->script      = $script      = "unit_test_script.php";
+		$exercise->name           = "unit test ".date('Y-m-d H:i:s');
+		$exercise->description    = "unitTest description";
+		$exercise->controller     = "unit_test_controller.php";
+		$exercise->configTemplate = "unit_test_config_template";
 		$exercise->save();
 		return $exercise;
 	}

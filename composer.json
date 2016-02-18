@@ -30,8 +30,7 @@
             "classes/WBT/",
             "controller/cms/",
             "controller/www/",
-            "model/cms/",
-            "model/www/",
+            "model/",
             "view/cms/",
             "view/www/"
         ]
