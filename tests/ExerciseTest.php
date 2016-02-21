@@ -100,14 +100,14 @@ class ExerciseTest extends PHPUnit_Framework_Testcase {
 	}
 
 
-	function createExercise() {
+	static function createExercise() {
 		$exercise = new Exercise();
 
-		$exercise->name           = "unit test ".date('Y-m-d H:i:s');
+		$exercise->name           = "unitTest ".microtime();
 		$exercise->description    = "unitTest description";
 		$exercise->controller     = "unit_test_controller.php";
 		$exercise->configTemplate = "unit_test_config_template";
 		$exercise->save();
-		return $exercise;
+                return $exercise;
 	}
 }

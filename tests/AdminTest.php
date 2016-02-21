@@ -158,8 +158,8 @@
 
 	static function createAdmin() {
 		$admin = new Admin;
-		$admin->description = "unittest-".date('YmdHis');
-		$admin->login = "unittest-".date('YmdHis');
+		$admin->description = "unittest-".date('YmdHis').'-'.rand();
+		$admin->login = "unittest-".date('YmdHis').'-'.rand();
 		$admin->password = 'qwerty';
 		$admin->state = 0;
 		$admin->rights = 0;

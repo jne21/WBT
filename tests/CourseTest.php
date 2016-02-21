@@ -165,6 +165,7 @@ class CourseTest extends PHPUnit_Framework_Testcase
         
         $course->ownerId = $ownerId;
         $course->state = 8;
+        $course->l10n = self::createLocale();
         
         $course->save();
         return $course;

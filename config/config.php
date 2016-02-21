@@ -58,8 +58,10 @@ $registry->set('base_path', $basePath);
 $registry->set('i18n_path', $basePath . 'i18n' . DIRECTORY_SEPARATOR);
 
 $registry->set('site_root_absolute',   $site_root_absolute);
-$registry->set('template_path',   $site_root_absolute.'tpl' . DIRECTORY_SEPARATOR);
+$registry->set('template_path',        $site_root_absolute.'tpl' . DIRECTORY_SEPARATOR);
 $registry->set('site_image_path',      $site_root_absolute.'img' . DIRECTORY_SEPARATOR);
+
+$registry->set('material_path', $basePath . 'material' . DIRECTORY_SEPARATOR);
 
 $registry->set('site_attachment_root', $site_root_absolute.'attachments' . DIRECTORY_SEPARATOR);
 

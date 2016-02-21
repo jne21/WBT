@@ -33,7 +33,7 @@ final class Exercise extends \common\SimpleObject {
             $db->update (self::TABLE, $record, "`id`=".intval($this->id));
         }
         else {
-            $db->insert(self::TABLE, $record);
+            $db->insert(self::TABLE, $record) or die($db->lastError);
             $this->id = $db->insertId();
         }
     }

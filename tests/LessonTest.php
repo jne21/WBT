@@ -172,7 +172,7 @@ class LessonTest extends PHPUnit_Framework_Testcase
         return $locale;
     }
 
-    function createLesson($courseId)
+    static function createLesson($courseId)
     {
         $lesson = new Lesson();
 

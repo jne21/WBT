@@ -72,10 +72,7 @@ class CourseController {
     function edit()
     {
         $registry = Registry::getInstance();
-        $application = Application::getInstance();
-        $locale = $registry->get('locale');
         $locales = LocaleManager::getLocales();
-
         $course = new Course(intval($_GET['id']));
         $owner =  new Admin($course->ownerId);
         if ($_POST['action'] == 'save') { //d($_POST, 1);
