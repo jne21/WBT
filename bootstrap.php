@@ -16,7 +16,6 @@ $wwwControllerPath = $controllerPath . 'www/';
 
 require($classPath . 'iView.php');
 
-
 require_once($modelPath . 'Course.php');
 require_once($modelPath . 'CourseL10n.php');
 require_once($modelPath . 'Exercise.php');
@@ -33,11 +32,13 @@ require_once($cmsViewPath . 'CourseEditView.php');
 require_once($cmsViewPath . 'CourseListView.php');
 require_once($cmsViewPath . 'ExerciseEditView.php');
 require_once($cmsViewPath . 'ExerciseListView.php');
+require_once($cmsViewPath . 'LessonEditView.php');
 require_once($cmsViewPath . 'LoginView.php');
 require_once($cmsViewPath . 'MainMenuView.php');
 require_once($cmsViewPath . 'RendererCMSView.php');
 require_once($cmsViewPath . 'RouterEditView.php');
 require_once($cmsViewPath . 'RouterListView.php');
+require_once($cmsViewPath . 'StageEditView.php');
 
 require_once($wwwControllerPath . 'Index.php');
 
@@ -51,6 +52,7 @@ require_once($cmsControllerPath . 'SetupController.php');
 require_once($cmsControllerPath . 'CourseController.php');
 require_once($cmsControllerPath . 'ExerciseController.php');
 require_once($cmsControllerPath . 'LessonController.php');
+require_once($cmsControllerPath . 'StageController.php');
 
 require_once($classPath . 'CMS/I18n.php');
 require_once($classPath . 'CMS/RendererCMS.php');

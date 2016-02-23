@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<i18n>
+	<token xml:id="append_mode">
+		<uk><![CDATA[Додання вправи]]></uk>
+		<ru><![CDATA[Добавление упражнения]]></ru>
+	</token>
+	<token xml:id="update_mode">
+		<uk><![CDATA[Редагування вправи]]></uk>
+		<ru><![CDATA[Редактирование упражнения]]></ru>
+	</token>
+</i18n>

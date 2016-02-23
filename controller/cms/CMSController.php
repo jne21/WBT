@@ -8,6 +8,7 @@ use CMS\RendererCMS as Renderer;
 use CMS\I18n;
 use WBT\CourseController;
 use WBT\LessonController;
+use WBT\StageController;
 use WBT\ExerciseController;
 
 class CMSController {
@@ -34,6 +35,9 @@ class CMSController {
                     break;
                 case 'lesson':
                     $controller = new LessonController;
+                    break;
+                case 'stage':
+                    $controller = new StageController;
                     break;
                 case 'exercise':
                     $controller = new ExerciseController;

@@ -1,14 +1,36 @@
 <h1>{h1}</h1>
 <div style="width: 95%; margin: 0 auto;">
-    <div id="lesson-editor">
+    <div id="stage-editor">
         <ul>
 {?id}
-            <li><a href="#lesson-stages">Вправи</a></li>
+            <li><a href="#stage-materials">Матеріали</a></li>
 {/id}
-            <li><a href="#lesson-header">Редагування уроку</a></li>
+            <li><a href="#stage-header">Редагування вправи</a></li>
         </ul>
-        <div id="lesson-header">
+        <div id="stage-header">
             <form method="post" name="mainForm" id="mainForm" enctype="multipart/form-data">
+                <div style="padding: 25px;">
+                <table class="shadow grid" style="width: 50%">
+                    <tbody>
+                        <tr>
+                            <th style="width: 230px;"><label for="name">Назва (тільки для адміністратора)</label> &nbsp;</th>
+                            <td><input name="name" id="name" value="{name}" maxlength="50" required="required" style="width: 95%;" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="exercise_id">Тип вправи:</label></th>
+                            <td>
+{?id}
+                            {exerciseName}
+{:id}
+                            <select name="exercise_id" id="exercise_id">
+                               {exerciseItems}
+                            </select>
+{/id}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
                 <div id="tabs">
                     <ul>{tabItems}</ul>
                     {tabContentItems}
@@ -24,24 +46,23 @@
             </form>
         </div>
 {?id}
-        <div id="lesson-stages">
-            {?stageItems}
+        <div id="stage-materials">
+            {?materialItems}
             <table class="shadow grid" style="width: 100%;">
                 <thead>
                     <tr>
                         <th style="width: 30px;">&nbsp;</th>
                         <th>Назва</th>
-                        <th>Тип вправи</th>
+                        {materialL10nHeaderItems}
                         <th style="width:40px;">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {stageItems}
+                    {materialItems}
                 </tbody>
             </table>
-            <br />
-            {/stageItems}
-            <a href="/cms/stage/edit?lesson_id={id}">Додати вправу</a>
+            {/materialItems}
+            <a href="/cms/material/edit?stage_id={id}">Додати матеріал</a>
         </div>
 {/id}
     </div>
@@ -49,28 +70,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-        $( "#lesson-editor" ).tabs();
+        $( "#stage-editor" ).tabs();
         $( "#tabs" ).tabs();
-
-	$( "#sortable" ).sortable({
-		placeholder: "ui-state-highlight",
-		update: function (event, ui) {
-			var sorted = $("#sortable").sortable("serialize", {key: "order[]"});
-			$.post(
-				'/cms/stage/renumber',
-				sorted,
-				function (data) {
-					if (data == 'OK') {
-					}
-					else {
-						alert(data);
-					}
-				}
-			).fail( function () {
-			});
-		}
-	});
-	$("#sortable").disableSelection();
 });
 </script>
 

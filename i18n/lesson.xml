@@ -9,12 +9,4 @@
 		<uk><![CDATA[Редагування уроку]]></uk>
 		<ru><![CDATA[Редактирование урока]]></ru>
 	</token>
-	<token xml:id="state0">
-		<uk><![CDATA[Не активний]]></uk>
-		<ru><![CDATA[Не активен]]></ru>
-	</token>
-	<token xml:id="state1">
-		<uk><![CDATA[Активний]]></uk>
-		<ru><![CDATA[Активен]]></ru>
-	</token>
 </i18n>
