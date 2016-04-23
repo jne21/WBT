@@ -1,4 +1,5 @@
 <?php
+
 namespace WBT;
 
 use \common\Registry;
@@ -9,7 +10,8 @@ use WBT\CourseL10n;
 #use Module;
 #use Exercise;
 
-final class Course extends \common\SimpleObject {
+final class Course extends \common\SimpleObject
+{
     const
         TABLE = 'course',
         DB    = 'db',
@@ -26,22 +28,25 @@ final class Course extends \common\SimpleObject {
 
     use \common\entity;
 
-    function __construct($courseId=NULL) {
+    function __construct($courseId=NULL)
+    {
         parent::__construct($courseId);
         $this->l10n  = new CourseL10n($this->id);
     }
 
-    function loadDataFromArray($data) {
-        $this->id         = intval($data['id']);
-        $this->ownerId    = intval($data['owner_id']);
-        $this->dateCreate = strtotime($data['date_create']);
-        $this->dateUpdate = strtotime($data['date_update']);
-        $this->state      = intval($data['state']);
-        $this->rights     = intval($data['rights']);
-        $this->order      = intval($data[self::ORDER_FIELD_NAME]);
+    function load($data)
+    {
+        $this->id         = intval($data->id);
+        $this->ownerId    = intval($data->owner_id);
+        $this->dateCreate = strtotime($data->date_create);
+        $this->dateUpdate = strtotime($data->date_update);
+        $this->state      = intval($data->state);
+        $this->rights     = intval($data->rights);
+        $this->order      = intval($data->{self::ORDER_FIELD_NAME});
     }
 
-    function save() {
+    function save()
+    {
         $db = Registry::getInstance()->get(self::DB);
         if ($this->id) {
             $this->dateUpdate = time();
@@ -72,8 +77,8 @@ final class Course extends \common\SimpleObject {
         $this->l10n->save();
     }
 
-    static function getList($mode=self::VISIBLE) {
-        $result = [];
+    static function getList($mode=self::VISIBLE)
+    {
         $db = Registry::getInstance()->get(self::DB);
         if ($mode == self::VISIBLE) {
             $sql = "SELECT * FROM `".self::TABLE."` WHERE `state`=".self::VISIBLE." ORDER BY `".self::ORDER_FIELD_NAME."`";
@@ -105,5 +110,4 @@ final class Course extends \common\SimpleObject {
     static function setState($courseId, $state) {
         self::updateValue($courseId, 'state', $state);
     }
-
 }

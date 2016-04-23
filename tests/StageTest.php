@@ -191,6 +191,4 @@ class StageTest extends PHPUnit_Framework_Testcase
         $stage->save();
         return $stage;
     }
-    
-    
 }

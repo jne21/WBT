@@ -6,18 +6,19 @@ use common\L10n;
 use common\Registry;
 use WBT\LocaleManager;
 
-class MaterialL10n extends L10n {
+class MaterialL10n extends L10n
+{
     const
         DB = 'db',
         TABLE = 'material_l10n'
     ;
 
-    function loadDataFromArray($localeId, $data)
+    function load($localeId, $data)
     {
         $this
-            ->set('fileName', $data['file_name'], $localeId)
-            ->set('originalFileName', $data['original_file_name'], $localeId)
-            ->set('mimeType', $data['mime_type'], $localeId);
+            ->set('fileName',         $data->file_name,          $localeId)
+            ->set('originalFileName', $data->original_file_name, $localeId)
+            ->set('mimeType',         $data->mime_type,          $localeId);
     }
 
     function save()
@@ -27,19 +28,18 @@ class MaterialL10n extends L10n {
                 $this->saveFile($localeId);
             }
             $data[$localeId] = [
-                'file_name'          => $this->get('fileName', $localeId),
+                'file_name'          => $this->get('fileName',                 $localeId),
                 'original_file_name' => $this->get('originalUploadedFileName', $localeId),
-                'mime_type'          => $this->get('mimeType', $localeId),
+                'mime_type'          => $this->get('mimeType',                 $localeId),
             ];
         }
         $this->saveData($data);
     }
 
-    function prepareToReceiveFile($uploadedFileName, $originalFileName, $localeId)
-    {
+    function prepareToReceiveFile($uploadedFileName, $originalFileName, $localeId) {
         if (file_exists($uploadedFileName)) {
             $this
-                ->set('uploadedFileName', $uploadedFileName, $localeId)
+                ->set('uploadedFileName',         $uploadedFileName, $localeId)
                 ->set('originalUploadedFileName', $originalFileName, $localeId);
         }
     }

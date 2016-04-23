@@ -25,6 +25,8 @@ class StageEditView implements \common\iView
         $tplMaterialItem = new Template($registry->get('template_path').'material_item.htm');
         $tplMaterialL10hHeaderItem = new Template($registry->get('template_path').'material_l10n_header_item.htm');
         $tplMaterialL10nItem = new Template($registry->get('template_path').'material_l10n_item.htm');
+        $tplMaterialAddItem = new Template($registry->get('template_path').'material_add_item.htm');
+        $tplMaterialAddL10nItem = new Template($registry->get('template_path').'material_add_l10n_item.htm');
         $tplso = new Template($registry->get('template_path') . 'select_option.htm');
 
         $stage = $data['stage'];
@@ -57,16 +59,29 @@ class StageEditView implements \common\iView
             $materialL10nItems = '';
             foreach ($locales as $localeId=>$localeData) {
                 $materialL10nItems .= $tplMaterialL10nItem->apply([
+                    'localeId' => $localeId,
+                    'materialId' => $material->id,
                     'mimeType' => $material->l10n->get('mimeType', $localeId)
                 ]);
             }
             $materialItems .= $tplMaterialItem->apply([
                 'id' => $materialId,
+                'hash' => $material->hash,
                 'name' => $material->l10n->get('name', $registry->get('locale')),
                 'description' => $material->l10n->get('description', $registry->get('locale')),
                 'l10nItems' => $materialL10nItems
             ]);
         }
+        $materialAddL10nItems = '';
+        foreach ($locales as $localeId=>$localeData) {
+            $materialAddL10nItems .= $tplMaterialAddL10nItem->apply([
+                'materialId' => 0,
+                'localeId' => $localeId
+            ]);
+        }
+        $materialItems = $tplMaterialAddItem->apply([
+            'l10nItems' => $materialAddL10nItems
+        ]);
 
         if (!$stage->id) {
             $exerciseItems = '';
@@ -83,6 +98,7 @@ class StageEditView implements \common\iView
             'id' => $stage->id,
             'lessonId' => $data['lessonId'],
             'name' => $stage->name,
+            'config' => $stage->settings,
             'tabItems' => $tabItems,
             'tabContentItems' => $tabContentItems,
             'materialL10nHeaderItems' => $materialL10nHeaderItems,

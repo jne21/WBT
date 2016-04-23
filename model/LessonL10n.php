@@ -4,19 +4,20 @@ namespace WBT;
 use common\L10n;
 use common\Registry;
 
-class LessonL10n extends L10n {
+class LessonL10n extends L10n
+{
     const
         DB = 'db',
         TABLE = 'lesson_l10n'
     ;
 
-    function loadDataFromArray($localeId, $array) {
-        $this->set('name',        $array['name'],          $localeId)
-            ->set('meta',        $array['meta'],          $localeId)
-            ->set('description', $array['description'],   $localeId)
-            ->set('brief',       $array['brief'],         $localeId)
-            ->set('url',         $array['url'],           $localeId)
-            ->set('title',       $array['title'],         $localeId);
+    function load($localeId, $data) {
+        $this->set('name',        $data->name,          $localeId)
+            ->set('meta',        $data->meta,          $localeId)
+            ->set('description', $data->description,   $localeId)
+            ->set('brief',       $data->brief,         $localeId)
+            ->set('url',         $data->url,           $localeId)
+            ->set('title',       $data->title,         $localeId);
     }
 
     function save()

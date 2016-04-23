@@ -1,9 +1,11 @@
 <?php
 
 namespace CMS;
+
 use common\Page;
 use common\Registry;
 use common\TemplateFile;
+
 /**
  * Description of RendererCMSView
  *
@@ -11,7 +13,8 @@ use common\TemplateFile;
  */
 class RendererCMSView implements \common\iView
 {
-    static function get($data) {
+    static function get($data)
+    {
         $registry = Registry::getInstance();
         switch ($data['pageMode']) {
             case Page::MODE_POPUP:
@@ -24,4 +27,5 @@ class RendererCMSView implements \common\iView
         $tpl = new TemplateFile($registry->get('template_path') . $templateFileName);
         return $tpl->getContent();
     }
+
 }

@@ -1,4 +1,5 @@
-<?
+<?php
+
 namespace WBT;
 
 use common\L10n;
@@ -11,15 +12,15 @@ class CourseL10n extends L10n
         TABLE = 'course_l10n'
     ;
 
-    function loadDataFromArray($localeId, $array)
+    function load($localeId, $data)
     {
-        $this->set('name',        $array['name'],          $localeId)
-            ->set('meta',        $array['meta'],          $localeId)
-            ->set('description', $array['description'],   $localeId)
-            ->set('brief',       $array['brief'],         $localeId)
-            ->set('url',         $array['url'],           $localeId)
-            ->set('title',       $array['title'],         $localeId)
-            ->set('state',       intval($array['state']), $localeId);
+        $this->set('name',        $data->name,          $localeId)
+            ->set('meta',        $data->meta,          $localeId)
+            ->set('description', $data->description,   $localeId)
+            ->set('brief',       $data->brief,         $localeId)
+            ->set('url',         $data->url,           $localeId)
+            ->set('title',       $data->title,         $localeId)
+            ->set('state',       intval($data->state), $localeId);
     }
 
     function save()

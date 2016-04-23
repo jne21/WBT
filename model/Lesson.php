@@ -4,8 +4,8 @@ namespace WBT;
 use \common\Registry;
 use WBT\LessonL10n;
 
-final class Lesson extends \common\SimpleObject {
-
+final class Lesson extends \common\SimpleObject
+{
     const
         TABLE = 'lesson',
         DB    = 'db',
@@ -21,39 +21,42 @@ final class Lesson extends \common\SimpleObject {
 
     use \common\entity;
 
-    function __construct($lessonId = NULL) {
+    function __construct($lessonId = NULL)
+    {
         parent::__construct($lessonId);
         $this->l10n  = new LessonL10n($this->id);
     }
 
-    function loadDataFromArray($data) {
-        $this->id         = intval($data['id']);
-        $this->courseId   = intval($data['course_id']);
-        $this->order      = intval($data[self::ORDER_FIELD_NAME]);
+    function load($data)
+    {
+        $this->id         = intval($data->id);
+        $this->courseId   = intval($data->course_id);
+        $this->order      = intval($data->{self::ORDER_FIELD_NAME});
     }
 
-    function save() {
+    function save()
+    {
         $db = Registry::getInstance()->get(self::DB);
         if ($this->id) {
 /*
-            $this->dateUpdate = time();
-            $db->update (
-                    self::TABLE,
-                    [
-                            'name'        => $this->name
-                    ],
-                    "`id`=".intval($this->id)
-            );
+        $this->dateUpdate = time();
+        $db->update (
+            self::TABLE,
+            [
+                'name'        => $this->name
+            ],
+            "`id`=".intval($this->id)
+        );
 */
         }
         else {
             $this->order = self::getNextOrderIndex();
             $db->insert(
-                    self::TABLE,
-                    [
-                            'course_id'             => $this->courseId,
-                            self::ORDER_FIELD_NAME  => $this->order
-                    ]
+                self::TABLE,
+                [
+                    'course_id'             => $this->courseId,
+                    self::ORDER_FIELD_NAME  => $this->order
+                ]
             ) or die($db->lastError);
             $this->id = $db->insertId();
             $this->l10n->parentId = $this->id;
@@ -61,8 +64,8 @@ final class Lesson extends \common\SimpleObject {
         $this->l10n->save();
     }
 
-    static function getList($courseId=NULL) {
-
+    static function getList($courseId=NULL)
+    {
         $result = parent::getList("SELECT * FROM `".self::TABLE."` WHERE `course_id`=".intval($courseId)." ORDER BY `".self::ORDER_FIELD_NAME."`");
         $l10nList = LessonL10n::getListByIds(array_keys($result));
         foreach ($result as $lessonId=>$lesson) {
@@ -71,13 +74,14 @@ final class Lesson extends \common\SimpleObject {
         return $result;
     }
 
-    static function delete($lessonId) {
-        LessonL10n::deleteAll($lesson->id);
+    static function delete($lessonId)
+    {
+        LessonL10n::deleteAll($lessonId);
         parent::delete($lessonId);
     }
 
-    static function setState($lessonId, $state) {
+    static function setState($lessonId, $state)
+    {
         self::updateValue($lessonId, 'state', $state);
     }
-
 }

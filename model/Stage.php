@@ -38,7 +38,8 @@ use \common\entity;
      * Создание экземпляра класса Stage
      * @param string $stageId - код Этапа. Необязательно.
      */
-    function __construct($stageId = NULL) {
+    function __construct($stageId = NULL)
+    {
         parent::__construct($stageId);
         $this->l10n  = new StageL10n($this->id);
     }
@@ -47,13 +48,14 @@ use \common\entity;
      * Загрузка свойств из массива
      * @param unknown $data
      */
-    function loadDataFromArray($data) {
-        $this->id         = intval($data['id']);
-        $this->lessonId   = intval($data['lesson_id']);
-        $this->exerciseId = intval($data['exercise_id']);
-        $this->name       = $data['name'];
-        $this->order      = intval($data[self::ORDER_FIELD_NAME]);
-        $this->settings   = $data['settings'];
+    function load($data)
+    {
+        $this->id         = intval($data->id);
+        $this->lessonId   = intval($data->lesson_id);
+        $this->exerciseId = intval($data->exercise_id);
+        $this->name       = $data->name;
+        $this->order      = intval($data->{self::ORDER_FIELD_NAME});
+        $this->settings   = $data->settings;
     }
 
     /**
@@ -61,7 +63,8 @@ use \common\entity;
      * @param unknown $lessonId
      * @return array
      */
-    static function getList($lessonId=NULL) {
+    static function getList($lessonId=NULL)
+    {
         $result = parent::getList("SELECT * FROM `".self::TABLE."` WHERE `lesson_id`=".intval($lessonId)." ORDER BY `".self::ORDER_FIELD_NAME."`");
         $l10nList = StageL10n::getListByIds(array_keys($result));
         foreach ($result as $stageId=>$stage) {
@@ -73,7 +76,8 @@ use \common\entity;
     /**
      * Сохранение объекта в БД при добавлении или редактировании
      */
-    function save() {
+    function save()
+    {
         $db = Registry::getInstance()->get(self::DB);
         $properties = [
             'lesson_id' => $this->lessonId,
@@ -94,9 +98,9 @@ use \common\entity;
         $this->l10n->save();
     }
 
-    static function delete($stageId) {
+    static function delete($stageId)
+    {
         StageL10n::deleteAll($stageId);
         parent::delete($stageId);
     }
-
 }

@@ -1,17 +1,20 @@
 <?php
+
 namespace CMS;
+
 use \common\Page;
 
 class RendererCMS extends \common\Renderer
 {
-    function __construct ($pageMode)
+
+    function __construct($pageMode)
     {
-        $this->page = new Page();
+        $this->page    = new Page();
         $this->page->set('mode', $pageMode);
-        $this->content = RendererCMSView::get(['pageMode'=>$pageMode]);
+        $this->content = RendererCMSView::get(['pageMode' => $pageMode]);
     }
 
-    function output ()
+    function output()
     {
         $this->updateContent([
             'h1' => $this->page->get('h1'),

@@ -3,12 +3,12 @@
     <div id="stage-editor">
         <ul>
 {?id}
-            <li><a href="#stage-materials">Матеріали</a></li>
+            <li><a href="#stage-materials">Конфігурація і матеріали</a></li>
 {/id}
             <li><a href="#stage-header">Редагування вправи</a></li>
         </ul>
-        <div id="stage-header">
-            <form method="post" name="mainForm" id="mainForm" enctype="multipart/form-data">
+        <form method="post" name="mainForm" id="mainForm" enctype="multipart/form-data">
+            <div id="stage-header">
                 <div style="padding: 25px;">
                 <table class="shadow grid" style="width: 50%">
                     <tbody>
@@ -34,37 +34,39 @@
                 <div id="tabs">
                     <ul>{tabItems}</ul>
                     {tabContentItems}
-                    <br />
-                    <p style="text-align: center">
-                        <input type="submit" value="Зберегти" /><br /><br />
-                        Назад: <a href="/cms/course/list">Повернутися до списку курсів</a>
-                    </p>
-                    <input type="hidden" name="action" value="save" />
-                    <input type="hidden" name="ret" value="0" />
                 </div>
                 <br /><br />
-            </form>
-        </div>
+            </div>
 {?id}
-        <div id="stage-materials">
-            {?materialItems}
-            <table class="shadow grid" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th style="width: 30px;">&nbsp;</th>
-                        <th>Назва</th>
-                        {materialL10nHeaderItems}
-                        <th style="width:40px;">&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {materialItems}
-                </tbody>
-            </table>
-            {/materialItems}
-            <a href="/cms/material/edit?stage_id={id}">Додати матеріал</a>
-        </div>
+            <div id="stage-materials">
+                <h2>Конфігурація</h2>
+                <div class="editor" id="brief_{localeId}" style="width: 100%; height: 600px; border: 1px solid black;">{config}</div>
+                <h2>Матеріали</h2>
+                <table class="shadow grid" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Назва</th>
+                            <th style="width:300px;">ID</th>
+                            <th style="width: 420px;">Файли</th>
+                            <th style="width:40px;">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {materialItems}
+                    </tbody>
+                </table>
+            </div>
 {/id}
+            <br />
+            <p style="text-align: center">
+                <input type="submit" value="Зберегти" /> &nbsp; &nbsp;
+                <input type="submit" value="Зберегти та продовжити" onclick="document.n['return'].value='true';" /><br /><br />
+                Назад: <a href="/cms/course/list">Повернутися до списку курсів</a>
+            </p>
+
+            <input type="hidden" name="action" value="save" />
+            <input type="hidden" name="return" value="" />
+        </form>
     </div>
 </div>
 

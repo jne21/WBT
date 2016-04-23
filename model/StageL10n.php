@@ -5,20 +5,22 @@ use common\L10n;
 use common\Registry;
 use WBT\LocaleManager;
 
-class StageL10n extends L10n {
+class StageL10n extends L10n
+{
     const
         DB = 'db',
         TABLE = 'stage_l10n'
     ;
 
-    function loadDataFromArray($localeId, $array)
+    function load($localeId, $array)
     {
-        $this->set('name',        $array['name'],          $localeId)
-            ->set('meta',        $array['meta'],          $localeId)
-            ->set('description', $array['description'],   $localeId)
-            ->set('brief',       $array['brief'],         $localeId)
-            ->set('url',         $array['url'],           $localeId)
-            ->set('title',       $array['title'],         $localeId);
+        $this
+            ->set('name',        $array->name,          $localeId)
+            ->set('meta',        $array->meta,          $localeId)
+            ->set('description', $array->description,   $localeId)
+            ->set('brief',       $array->brief,         $localeId)
+            ->set('url',         $array->url,           $localeId)
+            ->set('title',       $array->title,         $localeId);
     }
 
     function save()

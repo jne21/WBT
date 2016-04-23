@@ -5,8 +5,8 @@ namespace WBT;
 use common\Registry;
 use WBT\MaterialL10n;
 
-class Material extends \common\SimpleObject {
-
+class Material extends \common\SimpleObject
+{
     public
         /** @var int Идентификатор материала */
         $id,
@@ -34,9 +34,10 @@ class Material extends \common\SimpleObject {
 
     /**
      * Создание экземпляра класса Material
-     * @param string $stageId - код Материала. Необязательно.
+     * @param string $materialId - код Материала. Необязательно.
      */
-    function __construct($materialId = NULL) {
+    function __construct($materialId = NULL)
+    {
         parent::__construct($materialId);
         $this->l10n  = new MaterialL10n($this->id);
     }
@@ -45,12 +46,13 @@ class Material extends \common\SimpleObject {
      * Загрузка свойств из массива
      * @param unknown $data
      */
-    function loadDataFromArray($data) {
-        $this->id          = intval($data['id']);
-        $this->stageId     = intval($data['stage_id']);
-        $this->name        = $data['name'];
-        $this->description = $data['description'];
-        $this->hash        = $data['hash'];
+    function load($data)
+    {
+        $this->id          = intval($data->id);
+        $this->stageId     = intval($data->stage_id);
+        $this->name        = $data->name;
+        $this->description = $data->description;
+        $this->hash        = $data->hash;
     }
 
     /**
@@ -58,7 +60,8 @@ class Material extends \common\SimpleObject {
      * @param int $stageId
      * @return arrays
      */
-    static function getList($stageId=NULL) {
+    static function getList($stageId=NULL)
+    {
         $result = parent::getList("SELECT * FROM `".self::TABLE."` WHERE `stage_id`=".intval($stageId));
         $l10nList = MaterialL10n::getListByIds(array_keys($result));
         foreach (array_keys($result) as $materialId) {
@@ -70,7 +73,8 @@ class Material extends \common\SimpleObject {
     /**
      * Сохранение объекта в БД при добавлении или редактировании
      */
-    function save() {
+    function save()
+    {
         $db = Registry::getInstance()->get(self::DB);
         $properties = [
             'stage_id'    => $this->stageId,
@@ -78,7 +82,7 @@ class Material extends \common\SimpleObject {
             'description' => $this->description
         ];
         if ($this->id) {
-            $db->update (self::TABLE, $properties, "`id`=".intval($this->id));
+            $db->update(self::TABLE, $properties, "`id`=".intval($this->id));
         }
         else {
             $properties['hash'] = sha1(time());
@@ -89,9 +93,9 @@ class Material extends \common\SimpleObject {
         $this->l10n->save();
     }
 
-    static function delete($materialId) {
+    static function delete($materialId)
+    {
         MaterialL10n::deleteAll($materialId);
         parent::delete($materialId);
     }
-
 }

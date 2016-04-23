@@ -229,6 +229,4 @@ class MaterialTest extends PHPUnit_Framework_Testcase
         $material->save();
         return $material;
     }
-
-    
 }

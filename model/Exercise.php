@@ -3,8 +3,8 @@ namespace WBT;
 
 use \common\Registry;
 
-final class Exercise extends \common\SimpleObject {
-
+final class Exercise extends \common\SimpleObject
+{
     const
         TABLE = 'exercise',
         DB    = 'db'
@@ -13,15 +13,17 @@ final class Exercise extends \common\SimpleObject {
     public
         $id, $name, $description, $controller, $configTemplate;
 
-    function loadDataFromArray($data) {
-        $this->id             = $data['id'];
-        $this->name           = $data['name'];
-        $this->description    = $data['description'];
-        $this->controller     = $data['controller'];
-        $this->configTemplate = $data['config_template'];
+    function load($data)
+    {
+        $this->id             = $data->id;
+        $this->name           = $data->name;
+        $this->description    = $data->description;
+        $this->controller     = $data->controller;
+        $this->configTemplate = $data->config_template;
     }
 
-    function save() {
+    function save()
+    {
         $db = Registry::getInstance()->get(self::DB);
         $record = [
             'name'            => $this->name,
@@ -37,5 +39,4 @@ final class Exercise extends \common\SimpleObject {
             $this->id = $db->insertId();
         }
     }
-
 }

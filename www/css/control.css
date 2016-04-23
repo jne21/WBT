@@ -98,3 +98,8 @@ div.order_products:hover>div:nth-child(even), .even {background: #FFF;}
 
 #editor {display: none; position: absolute; z-index:999999; outline: none; border:1px solid green;}
 .editable {background-color: #FFFFCC; padding: 3px 5px;}
+table.locales {width: 100%;}
+table.locales td.loaded {width: 20px; background: url(/images/icon/os_complete.png) center center no-repeat;}
+table.locales td.not_loaded {width: 20px;}
+table.locales td.locale {width: 20px; text-align: center; text-transform: uppercase; font-weight: bold;}
+table.locales td.mimetype {padding-left: 30px; width: 100px;}
