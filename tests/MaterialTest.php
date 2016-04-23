@@ -157,14 +157,11 @@ class MaterialTest extends PHPUnit_Framework_Testcase
         $material = new Material($id);
         $this->assertNotEquals($id, $material->id, "Delete does not working ($id)");
 
-        $rs = $db->query("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . MaterialL10n::TABLE . "` WHERE `parent_id`=$id");
-        if ($sa = $db->fetch($rs)) {
-            $this->assertEquals(0, $sa['cnt'], "Delete does not remove localization data ($id)");
-        }
-        $rs1 = $db->query("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . Material::TABLE . "` WHERE `id`=$id");
-        if ($sa = $db->fetch($rs1)) {
-            $this->assertEquals(0, $sa['cnt'], "Delete does not remove materials ($id)");
-        }
+        $cnt = $db->getValue("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . MaterialL10n::TABLE . "` WHERE `parent_id`=$id");
+        $this->assertEquals(0, $cnt, "Delete does not remove localization data ($id)");
+
+        $cnt1 = $db->getValue("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . Material::TABLE . "` WHERE `id`=$id");
+        $this->assertEquals(0, $cnt1, "Delete does not remove materials ($id)");
     }
 
     function test_cleanUp()

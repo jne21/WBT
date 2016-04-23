@@ -2,11 +2,10 @@
 
 use WBT\LocaleManager;
 use common\Registry;
-use DB\Mysqli as db;
+use DB\Mysqli\Db as db;
 use common\Setup;
 
 session_start();
-
 
 ini_set ('error_reporting', E_ALL & ~E_NOTICE);
 //ini_set ('display_errors', 1);
@@ -36,23 +35,27 @@ $registry = Registry::getInstance();
 $db_TZ = date('I') ? '+03:00' : '+02:00';
 
 //--------------------------------------
-$DB_SERVER   = 'localhost';
-$DB_NAME     = 'WBT';
-$DB_USER     = 'wbt';
-$DB_PASSWORD = 'qyHFvQ';
+$db_config = [
+    Db::HOST => 'localhost',
+    Db::DB_NAME => 'WBT',
+    Db::LOGIN => 'wbt',
+    Db::PASSWORD => 'qyHFvQ',
+];
 //--------------------------------------
 
-$db  = new db($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
+$db  = new db($db_config);
+
 if ($db->lastError) die($db->lastError);
 $db->query('SET NAMES utf8');
 $db->query("SET time_zone = '$db_TZ'");
-$registry->set('db',  $db);
-
-$registry->set('setup', new Setup());
 
 $basePathComponents = explode(DIRECTORY_SEPARATOR, realpath($site_root_absolute));
 array_pop($basePathComponents);
 $basePath = implode(DIRECTORY_SEPARATOR, $basePathComponents) . DIRECTORY_SEPARATOR;
+
+$registry->set('db',  $db);
+
+$registry->set('setup', new Setup());
 
 $registry->set('base_path', $basePath);
 $registry->set('i18n_path', $basePath . 'i18n' . DIRECTORY_SEPARATOR);
@@ -70,16 +73,14 @@ $registry->set('site_js_root', $site_root_absolute.'js' . DIRECTORY_SEPARATOR);
 
 $registry->set('counters_enabled',     true);
 
-
 $registry->set('i18n_path', $basePath . 'i18n/');
-
-LocaleManager::setApplicationLocale();
 
 $registry->set(
     'template_path',
     $registry->get('i18n_path') . 'templates' . DIRECTORY_SEPARATOR . $registry->get('locale') . DIRECTORY_SEPARATOR
 );
 
+LocaleManager::setApplicationLocale();
 @include_once('variables.local.php');
 
 $registry->set('site_name', 'wbt.com');
@@ -94,18 +95,11 @@ $registry->set('site_i18n_root', $site_root_absolute . 'i18n/');
 
 parse_str($_SERVER["REDIRECT_QUERY_STRING"], $__GET);
 if (get_magic_quotes_gpc()) {
-
-    function stripslashes_deep ($value)
-    {
-        $value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes(
-                $value);
-        return $value;
-    }
-    $_POST = array_map('stripslashes_deep', $_POST);
-    $_GET = array_map('stripslashes_deep', $_GET);
-//    $__GET = array_map('stripslashes_deep', $__GET);
-    $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
-    $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
+    $_POST = Utils::stripslashes_deep($_POST);
+    $_GET = Utils::stripslashes_deep($_GET);
+//    $__GET = Utils::stripslashes_deep($__GET);
+    $_COOKIE = Utils::stripslashes_deep($_COOKIE);
+    $_REQUEST = Utils::stripslashes_deep($_REQUEST);
 }
 
 
@@ -158,12 +152,4 @@ function is_valid_attachment_parent_table ($parent_table, $attachment_settings)
              (FALSE !==
              strpos(implode('|', array_keys($attachment_settings)), 
                     $parent_table));
-}
-
-function d ($var, $stop = false)
-{
-    echo '<pre>' . print_r($var, true) . '</pre>';
-    if ($stop) {
-        die();
-    }
 }

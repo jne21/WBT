@@ -55,11 +55,11 @@ class CourseTest extends PHPUnit_Framework_Testcase
     {
         $registry = Registry::getInstance();
         $setup = $registry->get(self::REG_KEY);
-        
+
         $course = new Course($setup['id']);
         $course->state = $state = 1;
         $l10n = self::createLocale();
-        
+
         $locales = LocaleManager::getLocales();
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
@@ -72,17 +72,17 @@ class CourseTest extends PHPUnit_Framework_Testcase
         }
 
         $course->save();
-        
+
         $setup['state'] = $state;
         $setup['l10n'] = $l10n;
         $registry->set(self::REG_KEY, $setup);
-        
+
         unset($course);
-        
+
         $course1 = new Course($setup['id']);
         $this->assertEquals($setup['ownerId'], $course1->ownerId, "Invalid owner id ({$setup['id']}) after update.");
         $this->assertEquals($setup['state'], $course1->state, "Invalid state ({$setup['id']}) after update.");
-        
+
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
                 $this->assertEquals(
@@ -123,7 +123,7 @@ class CourseTest extends PHPUnit_Framework_Testcase
     {
         $registry = Registry::getInstance();
         $setup = $registry->get(self::REG_KEY);
-        
+
         Course::setState($setup['id'], 0);
         $course = new Course($setup['id']);
         $this->assertEquals(0, $course->state, "Invalid value after setState ($id).");
@@ -138,12 +138,10 @@ class CourseTest extends PHPUnit_Framework_Testcase
         Course::delete($setup['id']);
         $course = new Course($setup['id']);
         $this->assertNotEquals($setup['id'], $course->id, "Delete does not working ({$setup['id']})");
-        
+
         $db = $registry->get(Course::DB);
-        $rs = $db->query("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . CourseL10n::TABLE . "` WHERE `parent_id`={$setup['id']}");
-        if ($sa = $db->fetch($rs)) {
-            $this->assertEquals(0, $sa['cnt'], "Delete does not remove localization data ({$setup['id']})");
-        }
+        $cnt = $db->getValue("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . CourseL10n::TABLE . "` WHERE `parent_id`={$setup['id']}");
+        $this->assertEquals(0, $cnt, "Delete does not remove localization data ({$setup['id']})");
     }
 
     function test_cleanUp()
@@ -151,7 +149,7 @@ class CourseTest extends PHPUnit_Framework_Testcase
         $registry = Registry::getInstance();
         $setup = $registry->get(self::REG_KEY);
         Admin::delete($setup['ownerId']);
-        
+
         $db = $registry->get(Course::DB);
         $db->query("DELETE FROM `" . Admin::TABLE . "` WHERE `description` LIKE 'unitTest%'");
         $db->query("DELETE FROM `" . Course::TABLE . "` WHERE `description` LIKE 'unitTest%'");
@@ -162,11 +160,11 @@ class CourseTest extends PHPUnit_Framework_Testcase
     static function createCourse($ownerId)
     {
         $course = new Course();
-        
+
         $course->ownerId = $ownerId;
         $course->state = 8;
         $course->l10n = self::createLocale();
-        
+
         $course->save();
         return $course;
     }
@@ -176,7 +174,7 @@ class CourseTest extends PHPUnit_Framework_Testcase
         $locales = LocaleManager::getLocales();
         $locale = new CourseL10n();
         foreach (array_keys($locales) as $localeId) {
-            $l10n[$localeId] = [
+            $l10n[$localeId] = (object) [
                 'brief' => 'brief_' . rand() . '_' . $localeId,
                 'description' => 'unitTest_description_' . rand() . '_' . $localeId,
                 'meta' => 'meta_' . rand() . '_' . $localeId,
@@ -185,7 +183,7 @@ class CourseTest extends PHPUnit_Framework_Testcase
                 'title' => 'title_' . rand() . '_' . $localeId,
                 'url' => 'url_' . rand() . ' ' . $localeId
             ];
-            $locale->loadDataFromArray($localeId, $l10n[$localeId]);
+            $locale->load($localeId, $l10n[$localeId]);
         }
         return $locale;
     }

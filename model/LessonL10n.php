@@ -1,8 +1,8 @@
 <?php
+
 namespace WBT;
 
 use common\L10n;
-use common\Registry;
 
 class LessonL10n extends L10n
 {

@@ -137,14 +137,11 @@ class StageTest extends PHPUnit_Framework_Testcase
         $stage = new Stage($id);
         $this->assertNotEquals($id, $stage->id, "Delete does not working ($id)");
 
-        $rs = $db->query("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . StageL10n::TABLE . "` WHERE `parent_id`=$id");
-        if ($sa = $db->fetch($rs)) {
-            $this->assertEquals(0, $sa['cnt'], "Delete does not remove localization data ($id)");
-        }
-        $rs = $db->query("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . Material::TABLE . "` WHERE `stage_id`=$id");
-        if ($sa = $db->fetch($rs)) {
-            $this->assertEquals(0, $sa['cnt'], "Delete does not remove materials ($id)");
-        }
+        $cnt = $db->getValue("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . StageL10n::TABLE . "` WHERE `parent_id`=$id");
+        $this->assertEquals(0, $cnt, "Delete does not remove localization data ($id)");
+
+        $cnt = $db->getValue("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . Material::TABLE . "` WHERE `stage_id`=$id");
+        $this->assertEquals(0, $cnt, "Delete does not remove materials ($id)");
     }
 
     function test_cleanUp()
@@ -167,7 +164,7 @@ class StageTest extends PHPUnit_Framework_Testcase
         $locales = LocaleManager::getLocales();
         $locale = new StageL10n();
         foreach (array_keys($locales) as $localeId) {
-            $l10n[$localeId] = [
+            $l10n[$localeId] = (object) [
                 'name' => 'name_' . rand() . '_' . $localeId,
                 'brief' => 'brief_' . rand() . '_' . $localeId,
                 'description' => 'unitTest_description_' . rand() . '_' . $localeId,
@@ -175,7 +172,7 @@ class StageTest extends PHPUnit_Framework_Testcase
                 'title' => 'title_' . rand() . '_' . $localeId,
                 'url' => 'url_' . rand() . ' ' . $localeId
             ];
-            $locale->loadDataFromArray($localeId, $l10n[$localeId]);
+            $locale->load($localeId, $l10n[$localeId]);
         }
         return $locale;
     }

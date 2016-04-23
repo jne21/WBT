@@ -26,11 +26,6 @@ require_once($modelPath . 'StageL10n.php');
 require_once($modelPath . 'Material.php');
 require_once($modelPath . 'MaterialL10n.php');
 
-require_once($modelPath . 'EmailTemplate.php');
-require_once($modelPath . 'EmailTemplateAttachment.php');
-require_once($modelPath . 'EmailTemplateAttachmentAbstract.php');
-require_once($modelPath . 'EmailTemplateEmbedded.php');
-
 require_once($cmsViewPath . 'AdminEditView.php');
 require_once($cmsViewPath . 'AdminListView.php');
 require_once($cmsViewPath . 'CourseEditView.php');

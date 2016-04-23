@@ -111,7 +111,11 @@ class LessonTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($setup['courseId'], $lesson->courseId, "getList: Invalid course id ({$setup['id']}).");
         foreach ($locales as $localeId => $localeData) {
             foreach ($this->l10nFields as $field) {
-                $this->assertEquals($setup['l10n']->get($field, $localeId), $lesson->l10n->get($field, $localeId), "getList: Invalid ({$setup['id']})->l10n($localeId, $field).");
+                $this->assertEquals(
+                    $setup['l10n']->get($field, $localeId),
+                    $lesson->l10n->get($field, $localeId),
+                    "getList: Invalid ({$setup['id']})->l10n($localeId, $field)."
+                );
             }
         }
         unset($lesson);
@@ -129,14 +133,11 @@ class LessonTest extends PHPUnit_Framework_Testcase
         $lesson = new Lesson($id);
         $this->assertNotEquals($id, $lesson->id, "Delete does not working ($id)");
 
-        $rs = $db->query("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . LessonL10n::TABLE . "` WHERE `parent_id`=$id");
-        if ($sa = $db->fetch($rs)) {
-            $this->assertEquals(0, $sa['cnt'], "Delete does not remove localization data ($id)");
-        }
-        $rs = $db->query("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . Stage::TABLE . "` WHERE `lesson_id`=$id");
-        if ($sa = $db->fetch($rs)) {
-            $this->assertEquals(0, $sa['cnt'], "Delete does not remove stages ($id)");
-        }
+        $cnt = $db->getValue("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . LessonL10n::TABLE . "` WHERE `parent_id`=$id");
+        $this->assertEquals(0, $cnt, "Delete does not remove localization data ($id)");
+
+        $cnt = $db->getValue("SELECT IFNULL(COUNT(*), 0) as `cnt` FROM `" . Stage::TABLE . "` WHERE `lesson_id`=$id");
+        $this->assertEquals(0, $cnt, "Delete does not remove stages ($id)");
     }
 
     function test_cleanUp()
@@ -159,7 +160,7 @@ class LessonTest extends PHPUnit_Framework_Testcase
         $locales = LocaleManager::getLocales();
         $locale = new LessonL10n();
         foreach (array_keys($locales) as $localeId) {
-            $l10n[$localeId] = [
+            $l10n[$localeId] = (object) [
                 'brief' => 'brief_' . rand() . '_' . $localeId,
                 'description' => 'unitTest_description_' . rand() . '_' . $localeId,
                 'meta' => 'meta_' . rand() . '_' . $localeId,
@@ -167,7 +168,7 @@ class LessonTest extends PHPUnit_Framework_Testcase
                 'title' => 'title_' . rand() . '_' . $localeId,
                 'url' => 'url_' . rand() . ' ' . $localeId
             ];
-            $locale->loadDataFromArray($localeId, $l10n[$localeId]);
+            $locale->load($localeId, $l10n[$localeId]);
         }
         return $locale;
     }
