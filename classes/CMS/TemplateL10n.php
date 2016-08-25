@@ -1,6 +1,7 @@
 <?php
 
 namespace CMS;
+use WBT\LocaleManager;
 
 class TemplateL10n extends \common\L10n
 {
@@ -18,7 +19,7 @@ class TemplateL10n extends \common\L10n
         parent::__construct(self::TABLE, $parentId);
     }
     
-    function loadDataFromArray($localeId, $array)
+    function load($localeId, $array)
     {
         $this->set('html', $array['html'], $localeId);
     }
@@ -32,7 +33,7 @@ class TemplateL10n extends \common\L10n
                 $l10n = new self();
                 $l10n->parentId = $parentId;
                 foreach ($l10nData as $localeId=>$l10nItem) {
-                    $l10n->loadDataFromArray($localeId, $l10nItem);
+                    $l10n->load($localeId, $l10nItem);
                 }
                 $result[$parentId] = $l10n;
             }
@@ -50,4 +51,8 @@ class TemplateL10n extends \common\L10n
         parent::saveData($this->parentId, self::TABLE, $data);
     }
 
+    static function getLocales()
+    {
+        return LocaleManager::getLocales();
+    }
 }
