@@ -29,7 +29,7 @@ class TemplateL10n extends \common\L10n
         $result = [];
         if (is_array($idList) && count($idList)) {
             $ids = array_map('intval', $idList);
-            foreach($l = parent::loadByParentIds(self::TABLE, $ids) as $parentId=>$l10nData) {
+            foreach ($l = parent::loadByParentIds(self::TABLE, $ids) as $parentId=>$l10nData) {
                 $l10n = new self();
                 $l10n->parentId = $parentId;
                 foreach ($l10nData as $localeId=>$l10nItem) {
@@ -43,7 +43,7 @@ class TemplateL10n extends \common\L10n
 
     function save()
     {
-        foreach(array_keys(Registry::getInstance()->get('locales')) as $locale) {
+        foreach (array_keys(Registry::getInstance()->get('locales')) as $locale) {
             $data[$locale] = [
                 'html' => $this->get('html', $locale)
             ];
